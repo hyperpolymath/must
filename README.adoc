@@ -1,7 +1,7 @@
 image:[License,link="https://github.com/hyperpolymath/palimpsest-license"]
 
 // SPDX-License-Identifier: PMPL-1.0
-// SPDX-FileCopyrightText: 2025 hyperpolymath
+// SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
 
 = must: The Authority-First State Orchestrator
 :author: Hyperpolymath
@@ -36,7 +36,7 @@ must deploy --target podman
 ----
 
 == Shell Support
-While `must` generates wrappers for 17 shells (referenced in `/scripts/shells/`), the primary and supported entry point for all development is **Bash**.
+
 
 == Documentation
 * `man must`: Comprehensive CLI documentation.
