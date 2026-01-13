@@ -1,14 +1,24 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
-# Mustfile - hyperpolymath mandatory checks
-# See: https://github.com/hyperpolymath/mustfile
+= Contract of Physical State
+:author: Jonathan Jewell
+:revnumber: 0.1.0-Alpha
+:toc: macro
 
-version: 1
+== Overview
+This document defines the **authority-first physical state contract** for this project.
+See link:mustfile.ncl[mustfile.ncl] for machine-enforced rules.
 
-checks:
-  - name: security
-    run: just lint
-  - name: tests
-    run: just test
-  - name: format
-    run: just fmt
+== Files Required (must_have)
+- `LICENSE-AGPL`: AGPL-3.0-or-later license file.
+- `README.adoc`: Must include `SPDX-License-Identifier: PMPL-1.0`.
+- `bin/must`: Executable (mode: `0755`).
 
+== Files Forbidden (must_not_have)
+- `Makefile`: Use `Justfile` instead.
+- `node_modules/`: Use Deno or JSR.
+
+== Artifacts
+- Container images must be signed with **Ed448**.
+- Binaries must include **SHAKE256 hashes** in `mustfile.ncl`.
+
+== Reversibility
+All tasks must support rollback via `must clean`.
