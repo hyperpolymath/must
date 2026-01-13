@@ -1,24 +1,33 @@
-= Contract of Physical State
+= Contract of Physical State for `must`
 :author: Jonathan Jewell
-:revnumber: 0.1.0-Alpha
+:revnumber: 0.1.0
 :toc: macro
 
 == Overview
-This document defines the **authority-first physical state contract** for this project.
-See link:mustfile.ncl[mustfile.ncl] for machine-enforced rules.
+This `Mustfile` defines the **authority-first physical state contract** for the `must` repo.
+Machine-enforced rules are in link:mustfile.ncl[mustfile.ncl].
 
 == Files Required (must_have)
-- `LICENSE-AGPL`: AGPL-3.0-or-later license file.
+- `LICENSE-AGPL`: AGPL-3.0-or-later license.
 - `README.adoc`: Must include `SPDX-License-Identifier: PMPL-1.0`.
-- `bin/must`: Executable (mode: `0755`).
+- `Cargo.toml`: Rust project manifest.
+- `target/debug/must`: Built binary (mode: `0755`).
+- `mustfile.ncl`: Nickel manifest for state validation.
 
 == Files Forbidden (must_not_have)
 - `Makefile`: Use `Justfile` instead.
-- `node_modules/`: Use Deno or JSR.
+- `node_modules/`: Use Deno/JSR or system packages.
+- `*.rs.bk`: No backup files in repo.
 
 == Artifacts
-- Container images must be signed with **Ed448**.
-- Binaries must include **SHAKE256 hashes** in `mustfile.ncl`.
+- Container images must use **SHAKE256 hashing** (Memory #10).
+- Binaries must be signed with **Ed448** (post-quantum).
 
 == Reversibility
-All tasks must support rollback via `must clean`.
+All tasks support rollback via:
+- `cargo clean` (Rust artifacts)
+- `git clean -fd` (untracked files)
+- `podman rmi` (containers)
+
+== Validation
+Run `just validate-state` to enforce this contract.
