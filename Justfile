@@ -455,3 +455,17 @@ todos:
 # Open in editor
 edit:
     ${EDITOR:-code} .
+
+# Generate mustfile.ncl from Mustfile (simple rules only)
+gen-mustfile-ncl:
+    # Extract must_have/must_not_have from Mustfile
+    grep -A 10 "== Files Required" Mustfile | sed 's/^- \(.*\):.*/    { path = "\1" },/' > mustfile.ncl.tmp
+    grep -A 10 "== Files Forbidden" Mustfile | sed 's/^- \(.*\):.*/    "\1",/' >> mustfile.ncl.tmp
+    cat >> mustfile.ncl.tmp << 'EOF'
+  ],
+  tasks = {}
+}
+EOF
+    mv mustfile.ncl.tmp mustfile.ncl
+    echo "✅ Generated mustfile.ncl from Mustfile"
+
