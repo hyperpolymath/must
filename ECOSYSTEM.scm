@@ -7,8 +7,10 @@
    (type . "implementation")
    (purpose . "Implementation of the Mustfile specification - the engine that executes deployment state transitions")
    (position-in-ecosystem . "execution-layer")
-   (language . "Ada 2022")
+   (language . "Ada 2022 (SPARK-ready)")
    (status . "v0.1.0-alpha")
+   (memory-safety . "bounded-strings-only")
+   (spark-conversion . "complete-2026-02-05")
    (related-projects
      ((mustfile . "specification-implemented")
       (just . "sibling-tool")
