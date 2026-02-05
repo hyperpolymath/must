@@ -1,0 +1,6 @@
+requirement_checker.adb:10:06: warning: redundant with clause in body [-gnatwr]
+requirement_checker.adb:12:06: warning: redundant with clause in body [-gnatwr]
+requirement_checker.adb:105:25: error: no selector "Requirements_Content" for type "Mustfile_Config" defined at must_types.ads:106
+requirement_checker.adb:107:56: error: no selector "Requirements_Content" for type "Mustfile_Config" defined at must_types.ads:106
+requirement_checker.adb:107:87: error: "Path" is undefined (more references follow)
+requirement_checker.adb:131:16: error: no selector "Requirements_Content" for type "Mustfile_Config" defined at must_types.ads:106

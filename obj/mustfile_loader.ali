@@ -1,0 +1,285 @@
+V "GNAT Lib v15"
+A -gnatA
+A -g
+A -gnata
+A -gnatwa
+A -gnatwj
+A -gnatwe
+A -gnat2022
+A -fstack-check=specific
+A -gnatwa
+A -mtune=generic
+A -march=x86-64
+P SS ZX
+
+RN
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_LOCAL_ALLOCATORS
+RV NO_NESTED_FINALIZATION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+
+U mustfile_loader%b	mustfile_loader.adb	19dafe5a NE OO PK
+W ada%s			ada.ads			ada.ali
+W ada.directories%s	a-direct.adb		a-direct.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+Z system%s		system.ads		system.ali
+Z system.concat_2%s	s-conca2.adb		s-conca2.ali
+Z system.finalization_primitives%s  s-finpri.adb  s-finpri.ali
+Z system.return_stack%s	s-retsta.ads		s-retsta.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+Z system.soft_links%s	s-soflin.adb		s-soflin.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+W toml_parser%s		toml_parser.adb		toml_parser.ali
+
+U mustfile_loader%s	mustfile_loader.ads	20a79f4e EE OO PK
+W must_types%s		must_types.adb		must_types.ali
+Z system%s		system.ads		system.ali
+Z system.exception_table%s  s-exctab.adb	s-exctab.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		19700101000000 76789da1 ada%s
+D a-calend.ads		19700101000000 bf7f3cc9 ada.calendar%s
+D a-charac.ads		19700101000000 2d3ec45b ada.characters%s
+D a-chlat1.ads		19700101000000 e0d72e76 ada.characters.latin_1%s
+D a-contai.ads		19700101000000 61e5e089 ada.containers%s
+D a-conhel.ads		19700101000000 46fe1ce3 ada.containers.helpers%s
+D a-ciorma.ads		19700101000000 1fd25f9a ada.containers.indefinite_ordered_maps%s
+D a-coinve.ads		19700101000000 b20d0098 ada.containers.indefinite_vectors%s
+D a-crbltr.ads		19700101000000 d3d16ba4 ada.containers.red_black_trees%s
+D a-direct.ads		19700101000000 467e87a1 ada.directories%s
+D a-except.ads		19700101000000 e7970cd9 ada.exceptions%s
+D a-finali.ads		19700101000000 bf4f806b ada.finalization%s
+D a-ioexce.ads		19700101000000 40018c65 ada.io_exceptions%s
+D a-iteint.ads		19700101000000 49a8bee2 ada.iterator_interfaces%s
+D a-stream.ads		19700101000000 17477cbd ada.streams%s
+D a-string.ads		19700101000000 90ac6797 ada.strings%s
+D a-strmap.ads		19700101000000 1f91ebb6 ada.strings.maps%s
+D a-strsea.ads		19700101000000 18c3c634 ada.strings.search%s
+D a-sttebu.ads		19700101000000 f1ad67a2 ada.strings.text_buffers%s
+D a-strunb.ads		19700101000000 b10770ab ada.strings.unbounded%s
+D a-stuten.ads		19700101000000 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		19700101000000 fbca0ad5 ada.tags%s
+D a-textio.ads		19700101000000 34ef47de ada.text_io%s
+D a-unccon.ads		19700101000000 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		19700101000000 9111f9c1 interfaces%s
+D i-c.ads		19700101000000 e94c966a interfaces.c%s
+D i-cstrea.ads		19700101000000 ffd01b9d interfaces.c_streams%s
+D must_types.ads	20260126232215 492041e8 must_types%s
+D mustfile_loader.ads	20260117010922 6987dea6 mustfile_loader%s
+D mustfile_loader.adb	20260126232759 a8c134de mustfile_loader%b
+D system.ads		19700101000000 14286b0f system%s
+D s-atocou.ads		19700101000000 dc18efc3 system.atomic_counters%s
+D s-conca2.ads		19700101000000 b5fb73f7 system.concat_2%s
+D s-crtl.ads		19700101000000 beb39b9e system.crtl%s
+D s-exctab.ads		19700101000000 91bef6ef system.exception_table%s
+D s-ficobl.ads		19700101000000 dc5161d4 system.file_control_block%s
+D s-finpri.ads		19700101000000 5970d55a system.finalization_primitives%s
+D s-finroo.ads		19700101000000 0a7c3ed4 system.finalization_root%s
+D s-memory.ads		19700101000000 18949c1a system.memory%s
+D s-oscons.ads		19700101000000 322725c4 system.os_constants%s
+D s-oslock.ads		19700101000000 13fa6b78 system.os_locks%s
+D s-parame.ads		19700101000000 3597fc11 system.parameters%s
+D s-pooglo.ads		19700101000000 91708d21 system.pool_global%s
+D s-putima.ads		19700101000000 17291fe4 system.put_images%s
+D s-retsta.ads		19700101000000 0f6b06cb system.return_stack%s
+D s-secsta.ads		19700101000000 578279f5 system.secondary_stack%s
+D s-soflin.ads		19700101000000 5d88fdea system.soft_links%s
+D s-stache.ads		19700101000000 0b81c1fe system.stack_checking%s
+D s-stalib.ads		19700101000000 1c9580f6 system.standard_library%s
+D s-stalib.adb		19700101000000 eb464a47 system.standard_library%b
+D s-stoele.ads		19700101000000 ccded4e8 system.storage_elements%s
+D s-stopoo.ads		19700101000000 e9fa2dd8 system.storage_pools%s
+D s-stratt.ads		19700101000000 516607ae system.stream_attributes%s
+D s-traent.ads		19700101000000 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		19700101000000 fa2a7f59 system.unsigned_types%s
+D s-wchcon.ads		19700101000000 d9032363 system.wch_con%s
+D toml_parser.ads	20260117010922 aa0dd45d toml_parser%s
+G a e
+G c Z s b [mustfile_exists mustfile_loader 16 13 none]
+G c Z s b [load mustfile_loader 19 13 none]
+G c Z s b [load mustfile_loader 22 13 none]
+G c Z s b [create_default_mustfile mustfile_loader 25 14 none]
+G c Z s b [create_default_mustfile mustfile_loader 28 14 none]
+G r s toml_document [load mustfile_loader 19 13 none] [toml_documentIP toml_parser 55 9 none]
+G r s mustfile_config [load mustfile_loader 19 13 none] [mustfile_configIP must_types 106 9 none]
+G r l mustfile_config [load mustfile_loader 19 13 none] [mustfile_configDI must_types 106 9 none]
+G r k mustfile_config [load mustfile_loader 19 13 none] [mustfile_configDF must_types 106 9 none]
+G r c none [load mustfile_loader 19 13 none] [parse_file toml_parser 58 13 none]
+G r c none [load mustfile_loader 19 13 none] [get_string toml_parser 68 13 none]
+G r c none [load mustfile_loader 19 13 none] [get_table_keys toml_parser 87 13 none]
+G r s task_def [load mustfile_loader 19 13 none] [task_defIP must_types 37 9 none]
+G r l task_def [load mustfile_loader 19 13 none] [task_defDI must_types 37 9 none]
+G r k task_def [load mustfile_loader 19 13 none] [task_defDF must_types 37 9 none]
+G r c none [load mustfile_loader 19 13 none] [get_string_array toml_parser 80 13 none]
+G r s template_def [load mustfile_loader 19 13 none] [template_defIP must_types 71 9 none]
+G r l template_def [load mustfile_loader 19 13 none] [template_defDI must_types 71 9 none]
+G r k template_def [load mustfile_loader 19 13 none] [template_defDF must_types 71 9 none]
+G r c none [load mustfile_loader 19 13 none] [get_boolean toml_parser 72 13 none]
+G r c none [load mustfile_loader 19 13 none] [get_integer toml_parser 76 13 none]
+G r j mustfile_config [load mustfile_loader 19 13 none] [mustfile_configDA must_types 106 9 none]
+G r s toml_document [load mustfile_loader 22 13 none] [toml_documentIP toml_parser 55 9 none]
+G r s mustfile_config [load mustfile_loader 22 13 none] [mustfile_configIP must_types 106 9 none]
+G r l mustfile_config [load mustfile_loader 22 13 none] [mustfile_configDI must_types 106 9 none]
+G r k mustfile_config [load mustfile_loader 22 13 none] [mustfile_configDF must_types 106 9 none]
+G r c none [load mustfile_loader 22 13 none] [parse_file toml_parser 58 13 none]
+G r c none [load mustfile_loader 22 13 none] [get_string toml_parser 68 13 none]
+G r c none [load mustfile_loader 22 13 none] [get_table_keys toml_parser 87 13 none]
+G r s task_def [load mustfile_loader 22 13 none] [task_defIP must_types 37 9 none]
+G r l task_def [load mustfile_loader 22 13 none] [task_defDI must_types 37 9 none]
+G r k task_def [load mustfile_loader 22 13 none] [task_defDF must_types 37 9 none]
+G r c none [load mustfile_loader 22 13 none] [get_string_array toml_parser 80 13 none]
+G r s template_def [load mustfile_loader 22 13 none] [template_defIP must_types 71 9 none]
+G r l template_def [load mustfile_loader 22 13 none] [template_defDI must_types 71 9 none]
+G r k template_def [load mustfile_loader 22 13 none] [template_defDF must_types 71 9 none]
+G r c none [load mustfile_loader 22 13 none] [get_boolean toml_parser 72 13 none]
+G r c none [load mustfile_loader 22 13 none] [get_integer toml_parser 76 13 none]
+G r j mustfile_config [load mustfile_loader 22 13 none] [mustfile_configDA must_types 106 9 none]
+X 1 ada.ads
+18K9*Ada 22e8 30|8r6 9r6 9r23 16r14
+X 7 a-ciorma.ads
+57R9*Map<12|43R9>
+151U14*Insert 30|64s30[28|23]
+X 8 a-coinve.ads
+60R9*Vector<12|43R9>
+280U14*Append 30|54s29[28|47] 77s33[28|64] 85s33[28|64] 109s33[28|79]
+X 10 a-direct.ads
+76K13*Directories 524e20 30|8w10 16r18
+310V13*Exists{boolean} 30|16s30
+X 14 a-iteint.ads
+24h9 Forward_Iterator
+32h9 Reversible_Iterator<24R9[7|78]>
+X 20 a-strunb.ads
+269V14*"="{boolean} 8|45i19
+X 23 a-textio.ads
+58K13*Text_IO 785e16 30|9w10 9r27
+67P9*File_Type 30|144r11
+69n32*Out_File{69E9} 30|146r18
+99U14*Create 30|146s7
+131U14*Close 30|209s7 215s13
+176V13*Is_Open{boolean} 30|214s13
+555U14*Put_Line 30|147s7 148s7 149s7 150s7 151s7 152s7 153s7 154s7 155s7
+. 156s7 157s7 158s7 159s7 160s7 161s7 162s7 163s7 164s7 165s7 166s7 167s7
+. 168s7 169s7 170s7 171s7 172s7 173s7 174s7 175s7 176s7 177s7 178s7 179s7
+. 180s7 181s7 182s7 183s7 184s7 185s7 186s7 187s7 188s7 189s7 190s7 191s7
+. 192s7 193s7 194s7 195s7 196s7 197s7 198s7 199s7 200s7 201s7 202s7 203s7
+. 204s7 205s7 206s7 207s7 208s7
+565U14*Put_Line 30|211s7
+X 28 must_types.ads
+12K9*Must_Types 122e15 29|8w6 8r22 30|78r16 79r30 86r16 87r30
+20R12*String_Vector{8|60R9[16]} 30|38r31 61r30 71r31 73r35 95r35
+27R12*String_Map{7|57R9[23]}
+37R9*Task_Def 44e14 30|43r28
+38r7*Name{20|105R9} 30|45m18
+39r7*Description{20|105R9} 30|46m18
+40r7*Commands{20R12} 30|48m18
+41r7*Dependencies{20R12} 30|49m18
+42r7*Script{20|105R9} 30|50m18
+43r7*Working_Dir{20|105R9} 30|52m18
+51R12*Task_Vector{8|60R9[47]}
+54n30*Must_Have{54E9} 30|79r41
+54n41*Must_Not_Have{54E9} 30|87r41
+57R9*Requirement_Def 61e14 30|78r27 86r27
+58e7*Kind{54E9} 30|79m19 87m19
+59r7*Path{20|105R9} 30|80m19 88m19
+60r7*Pattern{20|105R9} 30|81m19 89m19
+68R12*Requirement_Vector{8|60R9[64]}
+71R9*Template_Def 76e14 30|100r27
+72r7*Name{20|105R9} 30|102m18
+73r7*Source{20|105R9} 30|103m18
+74r7*Destination{20|105R9} 30|105m18
+75r7*Description{20|105R9} 30|107m18
+83R12*Template_Vector{8|60R9[79]}
+87r7*Name{20|105R9} 30|31m22
+88r7*Version{20|105R9} 30|32m22
+89r7*License{20|105R9} 30|33m22
+90r7*Author{20|105R9} 30|34m22
+95r7*License{20|105R9} 30|115m26
+96r7*Copyright_Holder{20|105R9} 30|117m26
+97b7*Podman_Not_Docker{boolean} 30|119m26
+98b7*Gitlab_Not_Github{boolean} 30|121m26
+99b7*No_Trailing_Whitespace{boolean} 30|123m26
+100b7*No_Tabs{boolean} 30|125m26
+101b7*Unix_Line_Endings{boolean} 30|127m26
+102i7*Max_Line_Length{natural} 30|129m26
+106R9*Mustfile_Config 113e14 29|19r25 22r41 30|19r25 24r41 26r16
+107r7*Project{86R9} 30|31m14 32m14 33m14 34m14
+108r7*Tasks{51R12} 30|54m23
+109r7*Variables{27R12} 30|64m20
+110r7*Requirements{68R12} 30|77m20 85m20
+111r7*Templates{83R12} 30|109m23
+112r7*Enforcement{94R9} 30|115m14 117m14 119m14 121m14 123m14 125m14 127m14
+. 129m14
+119V13*To_Unbounded=120:36{20|105R9} 30|31s30 32s33 33s33 34s32 45s26 46s33
+. 50s28 52s33 80s30 81s30 88s30 89s30 102s26 103s28 105s33 107s33 115s37
+. 117s46
+X 29 mustfile_loader.ads
+10K9*Mustfile_Loader 33l5 33e20 30|12b14 220l5 220t20
+13a4*Mustfile_Name{string} 30|16r38 21r20 140r32
+16V13*Mustfile_Exists{boolean} 30|14b13 17l8 17t23
+19V13*Load{28|106R9} 30|19b13 22l8 22t12
+22V13*Load{28|106R9} 22>19 30|21s14 24b13 136l8 136t12
+22a19 Path{string} 30|24b19 28r26 135r63
+25U14*Create_Default_Mustfile 30|138b14 141l8 141t31
+28U14*Create_Default_Mustfile 28>39 30|140s7 143b14 218l8 218t31
+28a39 Path{string} 30|143b39 146r28 211r30
+31X4*Load_Error 30|135r16
+X 30 mustfile_loader.adb
+25r7 Doc{57|55R9} 28m7 31r56 32r59 33r59 34r58 38r64 47r31 48r48 49r52 51r31
+. 53r31 61r63 65r33 72r30 74r30 95r68 104r31 106r31 108r31 116r22 118r22
+. 120r22 122r22 124r22 126r22 128r22 130r23
+26r7 Config{28|106R9} 31m7 32m7 33m7 34m7 54m16 54r16 64m13 64r13 77m13 77r13
+. 85m13 85r13 109m16 109r16 115m7 117m7 119m7 121m7 123m7 125m7 127m7 129m7
+. 132r14
+38r10 Task_Keys{28|20R12} 40r21
+40a14 Key{string} 42r58 45r40
+42a16 Task_Path=42:56{string} 47r36 48r53 49r57 51r36 53r36
+43r16 T{28|37R9} 45m16 46m16 48m16 49m16 50m16 52m16 54r37
+61r10 Var_Keys{28|20R12} 63r21
+63a14 Key{string} 65r16 65r53
+71r10 Must_Have{28|20R12} 76r22
+73r10 Must_Not_Have{28|20R12} 84r22
+76a14 Path{string} 80r44
+84a14 Path{string} 88r44
+95r10 Template_Keys{28|20R12} 97r21
+97a14 Key{string} 99r61 102r40
+99a16 Tpl_Path=99:59{string} 104r36 106r36 108r36
+100r16 T{28|71R9} 102m16 103m16 105m16 107m16 109r41
+144p7 F{23|67P9} 146m15 146r15 147r17 148r17 149r17 150r17 151r17 152r17
+. 153r17 154r17 155r17 156r17 157r17 158r17 159r17 160r17 161r17 162r17 163r17
+. 164r17 165r17 166r17 167r17 168r17 169r17 170r17 171r17 172r17 173r17 174r17
+. 175r17 176r17 177r17 178r17 179r17 180r17 181r17 182r17 183r17 184r17 185r17
+. 186r17 187r17 188r17 189r17 190r17 191r17 192r17 193r17 194r17 195r17 196r17
+. 197r17 198r17 199r17 200r17 201r17 202r17 203r17 204r17 205r17 206r17 207r17
+. 208r17 209m14 209r14 214r22 215m20 215r20
+X 31 system.ads
+67M9*Address
+X 39 s-memory.ads
+51V13*Alloc{31|67M9} 101i<c,__gnat_malloc>22
+66U14*Free 102i<c,__gnat_free>22
+74V13*Realloc{31|67M9} 103i<c,__gnat_realloc>22
+X 50 s-stalib.adb
+87U14 Break_Start 88i<c,__gnat_break_start>22
+X 57 toml_parser.ads
+13K9*TOML_Parser 30|10w6 10r23 134r12 57|108e16
+55R9*TOML_Document<7|57R9[32]> 30|25r16 57|55e61
+58V13*Parse_File{55R9} 30|28s14
+68V13*Get_String{string} 30|31s44 32s47 33s47 34s46 47s19 51s19 53s19 65s21
+. 104s19 106s19 108s19 116s10 118s10
+72V13*Get_Boolean{boolean} 30|120s9 122s9 124s9 126s9 128s9
+76V13*Get_Integer{long_integer} 30|130s10
+80V13*Get_String_Array{28|20R12} 30|48s30 49s34 72s12 74s12
+87V13*Get_Table_Keys{28|20R12} 30|38s48 61s47 95s52
+91X4*Parse_Error 30|134r24
+

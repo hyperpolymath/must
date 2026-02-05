@@ -1,0 +1,320 @@
+V "GNAT Lib v15"
+A -gnatA
+A -g
+A -gnata
+A -gnatwa
+A -gnatwj
+A -gnatwe
+A -gnat2022
+A -fstack-check=specific
+A -gnatws
+A -mtune=generic
+A -march=x86-64
+P SS ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_LOCAL_ALLOCATORS
+RV NO_NESTED_FINALIZATION
+RV NO_RECURSION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RV NO_OBSOLESCENT_FEATURES
+
+U mustache_engine%b	mustache_engine.adb	f0201d17 NE OO PK
+W ada%s			ada.ads			ada.ali
+W ada.directories%s	a-direct.adb		a-direct.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.fixed%s	a-strfix.adb		a-strfix.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W must_types%s		must_types.adb		must_types.ali
+Z system%s		system.ads		system.ali
+Z system.concat_2%s	s-conca2.adb		s-conca2.ali
+Z system.concat_3%s	s-conca3.adb		s-conca3.ali
+Z system.concat_4%s	s-conca4.adb		s-conca4.ali
+Z system.concat_5%s	s-conca5.adb		s-conca5.ali
+Z system.finalization_primitives%s  s-finpri.adb  s-finpri.ali
+Z system.img_int%s	s-imgint.ads		s-imgint.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+Z system.soft_links%s	s-soflin.adb		s-soflin.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+U mustache_engine%s	mustache_engine.ads	26e0831d EE OO PK
+W must_types%s		must_types.adb		must_types.ali
+Z system%s		system.ads		system.ali
+Z system.exception_table%s  s-exctab.adb	s-exctab.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		19700101000000 76789da1 ada%s
+D a-calend.ads		19700101000000 bf7f3cc9 ada.calendar%s
+D a-charac.ads		19700101000000 2d3ec45b ada.characters%s
+D a-chlat1.ads		19700101000000 e0d72e76 ada.characters.latin_1%s
+D a-contai.ads		19700101000000 61e5e089 ada.containers%s
+D a-conhel.ads		19700101000000 46fe1ce3 ada.containers.helpers%s
+D a-ciorma.ads		19700101000000 1fd25f9a ada.containers.indefinite_ordered_maps%s
+D a-coinve.ads		19700101000000 b20d0098 ada.containers.indefinite_vectors%s
+D a-crbltr.ads		19700101000000 d3d16ba4 ada.containers.red_black_trees%s
+D a-direct.ads		19700101000000 467e87a1 ada.directories%s
+D a-except.ads		19700101000000 e7970cd9 ada.exceptions%s
+D a-finali.ads		19700101000000 bf4f806b ada.finalization%s
+D a-ioexce.ads		19700101000000 40018c65 ada.io_exceptions%s
+D a-iteint.ads		19700101000000 49a8bee2 ada.iterator_interfaces%s
+D a-stream.ads		19700101000000 17477cbd ada.streams%s
+D a-string.ads		19700101000000 90ac6797 ada.strings%s
+D a-strfix.ads		19700101000000 8648dedb ada.strings.fixed%s
+D a-strmap.ads		19700101000000 1f91ebb6 ada.strings.maps%s
+D a-strsea.ads		19700101000000 18c3c634 ada.strings.search%s
+D a-sttebu.ads		19700101000000 f1ad67a2 ada.strings.text_buffers%s
+D a-strunb.ads		19700101000000 b10770ab ada.strings.unbounded%s
+D a-stuten.ads		19700101000000 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		19700101000000 fbca0ad5 ada.tags%s
+D a-textio.ads		19700101000000 34ef47de ada.text_io%s
+D a-unccon.ads		19700101000000 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		19700101000000 9111f9c1 interfaces%s
+D i-c.ads		19700101000000 e94c966a interfaces.c%s
+D i-cstrea.ads		19700101000000 ffd01b9d interfaces.c_streams%s
+D must_types.ads	20260126232215 492041e8 must_types%s
+D mustache_engine.ads	20260117010922 6fc0c2f5 mustache_engine%s
+D mustache_engine.adb	20260126232806 931ef005 mustache_engine%b
+D system.ads		19700101000000 14286b0f system%s
+D s-atocou.ads		19700101000000 dc18efc3 system.atomic_counters%s
+D s-conca2.ads		19700101000000 b5fb73f7 system.concat_2%s
+D s-conca3.ads		19700101000000 8a7a19a2 system.concat_3%s
+D s-conca4.ads		19700101000000 33f85f3e system.concat_4%s
+D s-conca5.ads		19700101000000 4099d1db system.concat_5%s
+D s-crtl.ads		19700101000000 beb39b9e system.crtl%s
+D s-exctab.ads		19700101000000 91bef6ef system.exception_table%s
+D s-ficobl.ads		19700101000000 dc5161d4 system.file_control_block%s
+D s-finpri.ads		19700101000000 5970d55a system.finalization_primitives%s
+D s-finroo.ads		19700101000000 0a7c3ed4 system.finalization_root%s
+D s-imagei.ads		19700101000000 5e131ce0 system.image_i%s
+D s-imgint.ads		19700101000000 67e4edfb system.img_int%s
+D s-memory.ads		19700101000000 18949c1a system.memory%s
+D s-oscons.ads		19700101000000 322725c4 system.os_constants%s
+D s-oslock.ads		19700101000000 13fa6b78 system.os_locks%s
+D s-parame.ads		19700101000000 3597fc11 system.parameters%s
+D s-pooglo.ads		19700101000000 91708d21 system.pool_global%s
+D s-putima.ads		19700101000000 17291fe4 system.put_images%s
+D s-retsta.ads		19700101000000 0f6b06cb system.return_stack%s
+D s-secsta.ads		19700101000000 578279f5 system.secondary_stack%s
+D s-soflin.ads		19700101000000 5d88fdea system.soft_links%s
+D s-stache.ads		19700101000000 0b81c1fe system.stack_checking%s
+D s-stalib.ads		19700101000000 1c9580f6 system.standard_library%s
+D s-stalib.adb		19700101000000 eb464a47 system.standard_library%b
+D s-stoele.ads		19700101000000 ccded4e8 system.storage_elements%s
+D s-stopoo.ads		19700101000000 e9fa2dd8 system.storage_pools%s
+D s-stratt.ads		19700101000000 516607ae system.stream_attributes%s
+D s-traent.ads		19700101000000 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		19700101000000 fa2a7f59 system.unsigned_types%s
+D s-valspe.ads		19700101000000 f810d31c system.val_spec%s
+D s-vaispe.ads		19700101000000 8280550e system.value_i_spec%s
+D s-vauspe.ads		19700101000000 89269ba5 system.value_u_spec%s
+D s-vs_int.ads		19700101000000 06b6b724 system.vs_int%s
+D s-vs_uns.ads		19700101000000 e7f47a27 system.vs_uns%s
+D s-wchcon.ads		19700101000000 d9032363 system.wch_con%s
+G a e
+G c Z s b [render mustache_engine 13 13 none]
+G c Z s b [render_file mustache_engine 18 13 none]
+G c Z s b [apply_template mustache_engine 23 14 none]
+G c Z s b [apply_all mustache_engine 31 14 none]
+G c Z s b [apply_named mustache_engine 37 14 none]
+G c Z s b [list_templates mustache_engine 45 14 none]
+G c Z s b [template_exists mustache_engine 48 13 none]
+G c Z b b [read_file mustache_engine 17 13 none]
+G c Z b b [write_file mustache_engine 41 14 none]
+G c Z b b [find_section_end mustache_engine 65 13 none]
+G c Z b b [render_path mustache_engine 291 13 none]
+X 1 ada.ads
+18K9*Ada 22e8 31|8r6 8r23 9r6 10r6 11r6 11r33 29r14 46r35 48r41 49r13 100r23
+. 114r21 198r53 200r22 204r22 239r42 240r31 242r49 243r31 251r45 252r35 269r41
+. 278r14
+X 7 a-ciorma.ads
+57R9*Map<12|43R9>
+67R9*Cursor
+89V13*Key{string} 31|359s43[29|23]
+91V13*Element{string} 31|359s64[29|23]
+156U14*Include 31|359s22[29|23]
+204V13*Contains{boolean} 31|146s32[29|23] 176s36[29|23] 227s32[29|23] 239s32[29|23]
+. 254s32[29|23]
+230V13*Iterate{14|32C9[78[29|23]]} 31|358s26[29|23]
+X 8 a-coinve.ads
+60R9*Vector<12|43R9>
+118V13*Is_Empty{boolean} 31|325s27[29|79] 388s27[29|79]
+X 10 a-direct.ads
+76K13*Directories 524e20 31|9w10 46r39 48r45 49r17 204r26
+118U14*Create_Path 31|49s29
+251V13*Containing_Directory{string} 31|46s51
+310V13*Exists{boolean} 31|48s57 204s38
+X 14 a-iteint.ads
+24h9 Forward_Iterator
+32h9 Reversible_Iterator<24R9[8|84]>
+32C9*Reversible_Iterator<32R9[7|78[29|23]]>
+X 16 a-string.ads
+16K13*Strings 35e16 31|10r10 11r10 11r37 29r18 100r27 114r25 198r57 200r26
+. 239r46 240r35 242r53 243r35 251r49 252r39 269r45 278r18
+33n37*Both{33E9} 31|200r34 240r43 243r43 252r47
+X 17 a-strfix.ads
+49K21*Fixed 1390e22 31|10w18 100r35 114r33 198r65 239r54 242r61 251r57
+252V13*Index{natural} 31|100s41 114s39
+1133V13*Trim{string} 31|198s71 239s60 242s67 251s63
+X 21 a-strunb.ads
+91K21*Unbounded 1641e26 31|11w18 11r45 29r26 269r53 278r26
+105R9*Unbounded_String<12|43R9> 1620e15 31|19r17 93r19 258r35
+111V13*Length{natural} 31|395s13 396s24
+135V13*To_String{string} 31|29s36 269s63 278s36
+159U14*Append 31|23s10 104s13 110s13 152s28 180s22 210s25 228s22 242s22 262s43
+. 263s43 264s43 265s43 269s25
+168U14*Append 31|25s13 266s46
+269V14*"="{boolean} 8|45i19
+X 24 a-textio.ads
+58K13*Text_IO 785e16 31|8w10 8r27
+67P9*File_Type 31|18r17 42r11
+69n23*In_File{69E9} 31|21r16
+69n32*Out_File{69E9} 31|53r18
+99U14*Create 31|53s7
+115U14*Open 31|21s7
+131U14*Close 31|28s7 35s13 55s7 59s13
+176V13*Is_Open{boolean} 31|34s13 58s13
+341V13*End_Of_File{boolean} 31|22s17 24s17
+508U14*Put 31|54s7
+549V13*Get_Line{string} 31|23s27
+565U14*Put_Line 31|310s10 326s10 330s7 342s10 344s10 365s13 374s16 376s16
+. 389s10 400s7 401s7 411s16 413s16
+601X4*Name_Error 31|31r12
+X 29 must_types.ads
+12K9*Must_Types 122e15 30|8w6 8r22 31|12w6 334r28 335r28 364r13 367r31 368r31
+. 405r42 406r42 425r13
+23K12*String_Maps[7|48] 31|359r31 359r52
+27R12*String_Map{7|57R9[23]} 30|15r19 20r23 26r21 40r23 31|91r19 283r23 293r19
+. 302r21 323r19 351r23 355r21
+72r7*Name{21|105R9} 31|364r37 395r23 396r34 405r66 425r37
+73r7*Source{21|105R9} 31|334r52 367r55
+74r7*Destination{21|105R9} 31|335r52 368r55
+75r7*Description{21|105R9} 31|406r66
+83R12*Template_Vector{8|60R9[79]}
+106R9*Mustfile_Config 113e14 30|32r17 38r23 45r39 49r23 31|319r17 349r23
+. 385r39 420r23
+109r7*Variables{27R12} 31|323r40 355r42
+111r7*Templates{83R12} 31|325r17 332r23 363r23 388r17 394r23 403r23 424r23
+116V13*To_String=117:36{string} 31|334s39 335s39 364s24 367s42 368s42 405s53
+. 406s53 425s24
+X 30 mustache_engine.ads
+10K9*Mustache_Engine 55l5 55e20 31|14b14 432l5 432t20
+13V13*Render{string} 14>7 15>7 31|89b13 152s44 180s38 210s41 279l8 279t14
+. 287s14 296s14
+14a7 Template{string} 31|90b7 94r31 98r18 100r48 100r63 104r29 104r44 110r29
+. 115r13 115r36 125r15 137r39 153r31 167r39 181r25
+15r7 Variables{29|27R12} 31|91b7 146r22 148r52 153r70 176r26 177r22 178r22
+. 181r64 210r66 227r22 228r38 239r22 242r38 254r22 257r54
+18V13*Render_File{string} 19>7 20>7 31|281b13 288l8 288t19 307s42
+19a7 Template_Path{string} 31|282b7 285r47
+20r7 Variables{29|27R12} 31|283b7 287r31
+23U14*Apply_Template 24>7 25>7 26>7 27>7 28>7 31|299b14 316l8 316t22 333s10
+. 366s13
+24a7 Source{string} 31|300b7 307r55 310r27 334r13 367r16
+25a7 Destination{string} 31|301b7 306r55 335r13 368r16
+26r7 Variables{29|27R12} 31|302b7 306r68 307r63 336r13 369r16
+27b7 Dry_Run{boolean} 31|303b7 309r21 313r14 337r13 370r16
+28b7 Verbose{boolean} 31|304b7 309r10 338r13 371r16
+31U14*Apply_All 32>7 33>7 34>7 31|318b14 346l8 346t17
+32r7 Config{29|106R9} 31|319b7 323r33 325r10 332r16
+33b7 Dry_Run{boolean} 31|320b7 337r28 341r10
+34b7 Verbose{boolean} 31|321b7 338r28
+37U14*Apply_Named 38>7 39>7 40>7 41>7 42>7 31|348b14 383l8 383t19
+38r7 Config{29|106R9} 31|349b7 355r35 363r16
+39a7 Template_Name{string} 31|350b7 364r45 365r47 382r58
+40r7 Variables{29|27R12} 31|351b7 358r16
+41b7 Dry_Run{boolean} 31|352b7 370r31 373r16
+42b7 Verbose{boolean} 31|353b7 371r31
+45U14*List_Templates 45>30 31|385b14 417l8 417t22
+45r30 Config{29|106R9} 31|385b30 388r10 394r16 403r16
+48V13*Template_Exists{boolean} 49>7 50>7 31|419b13 430l8 430t23
+49r7 Config{29|106R9} 31|420b7 424r16
+50a7 Template_Name{string} 31|421b7 425r45
+53X4*Template_Error 31|32r16 118r19 141r28 171r28 382r13
+X 31 mustache_engine.adb
+17V13 Read_File{string} 17b13 17>24 38l8 38t17 208s27 285s36
+17a24 Path{string} 21r25 32r66
+18p7 F{24|67P9} 21m13 21r13 22r30 23r37 24r30 28m14 28r14 34r22 35m20 35r20
+19r7 Content{21|105R9} 23m18 23r18 25m21 25r21 29r47
+41U14 Write_File 41b14 41>26 41>41 62l8 62t18 314s10
+41a26 Path{string} 46r73 53r28
+41a41 Content{string} 54r15
+42p7 F{24|67P9} 53m15 53r15 54r12 55m14 55r14 58r22 59m20 59r20
+46a10 Dir{string} 48r13 48r65 49r42
+65V13 Find_Section_End{natural} 65b13 66>7 67>7 68>7 87l8 87t24 137s21 167s21
+66a7 Template{string} 75r20 76r13 81r16
+67a7 Tag_Name{string} 70r46 71r46
+68i7 Start{positive} 72r30
+70a7 Close_Tag=70:55{string} 75r36 76r36 76r60
+71a7 Open_Tag=71:55{string} 81r39 81r62
+72i7 Pos{natural} 75r13 76r23 76r30 79r23 81r26 81r33 84m10 84r17
+73i7 Depth{natural} 77m13 77r22 78r16 82m13 82r22
+93r7 Result{21|105R9} 104m21 104r21 110m21 110r21 152m36 152r36 180m30 180r30
+. 210m33 210r33 228m30 228r30 242m30 242r30 269m33 269r33 278r47
+94i7 I{positive} 98r13 100r58 104r39 109r25 110r39 158m19 184m19 189m16 193m16
+. 217m16 231m16 246m16 273m16
+95i7 Tag_Start{natural} 100m10 102r13 109r13 110r44 115r23 119r31 125r25
+96i7 Tag_End{natural} 114m10 117r13 125r42 137r55 153r41 167r55 181r35 189r21
+. 193r21 217r21 231r21 246r21 273r21
+124a13 Tag_Content{string} 127r16 131r19 131r32 135r21 135r34 135r59 161r19
+. 161r32 165r21 165r34 165r59 187r19 187r32 191r19 191r32 195r19 195r32 199r22
+. 199r35 199r60 219r19 219r32 220r19 220r32 225r21 225r34 225r59 233r19 233r32
+. 237r21 237r34 237r59 252r22
+134a19 Name{string} 137r49 138r58 142r47 146r42 148r63
+136i19 Sec_End{natural} 140r22 153r56 158r24
+138a19 Close_Tag=138:63{string} 158r34
+148a25 Value{string} 150r28 150r54
+164a19 Name{string} 167r49 168r58 172r56 176r46 177r33 178r33
+166i19 Sec_End{natural} 170r22 181r50 184r24
+168a19 Close_Tag=168:63{string} 184r34
+198a19 Partial_Name{string} 202r36
+201a19 Partial_Path=202:49{string} 204r46 208r38
+207a25 Partial_Content{string} 210r49
+224a19 Name{string} 227r42 228r49
+236a19 Name{string} 240r25 243r25
+251a19 Name{string} 254r42 257r65
+257a25 Value{string} 260r34
+258r25 Escaped{21|105R9} 262m51 262r51 263m51 263r51 264m51 264r51 265m51
+. 265r51 266m54 266r54 269r74
+260e29 C=260:34{character} 261r33 266r63
+285a7 Content{string} 287r22
+291V13 Render_Path{string} 291b13 292>7 293>7 297l8 297t19 306s42
+292a7 Path{string} 296r22
+293r7 Variables{29|27R12} 296r28
+306a7 Rendered_Dest{string} 310r45 314r22
+307a7 Content{string} 314r37
+323r7 Variables{29|27R12} 336r28
+332r11 T{29|71R9} 334r50 335r50
+355r7 Merged_Vars{29|27R12} 359m10 359r10 369r31
+358i11 C{any type} 359r48 359r73
+363r11 T{29|71R9} 364r35 367r53 368r53
+386i7 Max_Len{natural} 395r31 396m13 407r45
+394r11 T{29|71R9} 395r21 396r32
+403r11 T{29|71R9} 405r64 406r64
+405a13 Name{string} 407r55 411r33 413r33
+406a13 Desc{string} 410r16 411r57
+407a13 Padding{string} 411r40
+424r11 T{29|71R9} 425r35
+X 32 system.ads
+67M9*Address
+X 45 s-memory.ads
+51V13*Alloc{32|67M9} 101i<c,__gnat_malloc>22
+66U14*Free 102i<c,__gnat_free>22
+74V13*Realloc{32|67M9} 103i<c,__gnat_realloc>22
+X 56 s-stalib.adb
+87U14 Break_Start 88i<c,__gnat_break_start>22
+

@@ -1,0 +1,2 @@
+must_types.ads:30:04: error: instantiation error at a-ciorma.ads:46
+must_types.ads:30:04: error: no visible subprogram matches the specification for "="
