@@ -8,8 +8,6 @@ A -gnatwj
 A -gnatwe
 A -gnat2022
 A -fstack-check=specific
-A -gnatwe
-A -gnatwa
 A -mtune=generic
 A -march=x86-64
 P SS ZX
@@ -28,13 +26,11 @@ RV NO_DEFAULT_INITIALIZATION
 RV NO_DYNAMIC_SIZED_OBJECTS
 RV NO_IMPLEMENTATION_PRAGMAS
 
-U must%b		must.adb		53d5e29f NE OO SU
+U must%b		must.adb		4697406d NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.command_line%s	a-comlin.adb		a-comlin.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
-W ada.strings%s		a-string.ads		a-string.ali
 Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
-W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 W cli_parser%s		cli_parser.adb		cli_parser.ali
 W deployer%s		deployer.adb		deployer.ali
@@ -43,6 +39,7 @@ W mustache_engine%s	mustache_engine.adb	mustache_engine.ali
 W mustfile_loader%s	mustfile_loader.adb	mustfile_loader.ali
 W requirement_checker%s	requirement_checker.adb	requirement_checker.ali
 Z system%s		system.ads		system.ali
+Z system.assertions%s	s-assert.adb		s-assert.ali
 Z system.concat_2%s	s-conca2.adb		s-conca2.ali
 Z system.concat_3%s	s-conca3.adb		s-conca3.ali
 Z system.finalization_primitives%s  s-finpri.adb  s-finpri.ali
@@ -52,39 +49,44 @@ Z system.standard_library%s  s-stalib.adb	s-stalib.ali
 W task_runner%s		task_runner.adb		task_runner.ali
 
 D ada.ads		19700101000000 76789da1 ada%s
+D a-assert.ads		19700101000000 ba465f5c ada.assertions%s
 D a-charac.ads		19700101000000 2d3ec45b ada.characters%s
 D a-chlat1.ads		19700101000000 e0d72e76 ada.characters.latin_1%s
 D a-comlin.ads		19700101000000 4aa66568 ada.command_line%s
 D a-contai.ads		19700101000000 61e5e089 ada.containers%s
 D a-conhel.ads		19700101000000 46fe1ce3 ada.containers.helpers%s
-D a-ciorma.ads		19700101000000 1fd25f9a ada.containers.indefinite_ordered_maps%s
 D a-coinve.ads		19700101000000 b20d0098 ada.containers.indefinite_vectors%s
+D a-coorma.ads		19700101000000 3edf5cc0 ada.containers.ordered_maps%s
 D a-crbltr.ads		19700101000000 d3d16ba4 ada.containers.red_black_trees%s
+D a-convec.ads		19700101000000 91fb49f3 ada.containers.vectors%s
 D a-except.ads		19700101000000 e7970cd9 ada.exceptions%s
 D a-finali.ads		19700101000000 bf4f806b ada.finalization%s
 D a-ioexce.ads		19700101000000 40018c65 ada.io_exceptions%s
 D a-iteint.ads		19700101000000 49a8bee2 ada.iterator_interfaces%s
 D a-stream.ads		19700101000000 17477cbd ada.streams%s
 D a-string.ads		19700101000000 90ac6797 ada.strings%s
+D a-strbou.ads		19700101000000 6d86a9a3 ada.strings.bounded%s
 D a-strmap.ads		19700101000000 1f91ebb6 ada.strings.maps%s
 D a-strsea.ads		19700101000000 18c3c634 ada.strings.search%s
+D a-strsup.ads		19700101000000 8667231b ada.strings.superbounded%s
 D a-sttebu.ads		19700101000000 f1ad67a2 ada.strings.text_buffers%s
 D a-strunb.ads		19700101000000 b10770ab ada.strings.unbounded%s
 D a-stuten.ads		19700101000000 c6ced0ae ada.strings.utf_encoding%s
 D a-tags.ads		19700101000000 fbca0ad5 ada.tags%s
 D a-textio.ads		19700101000000 34ef47de ada.text_io%s
 D a-unccon.ads		19700101000000 0e9b276f ada.unchecked_conversion%s
-D cli_parser.ads	20260126231057 b98233a2 cli_parser%s
+D cli_parser.ads	20260205150323 a37da1fb cli_parser%s
 D deployer.ads		20260117010922 4fb04bb7 deployer%s
 D interfac.ads		19700101000000 9111f9c1 interfaces%s
 D i-c.ads		19700101000000 e94c966a interfaces.c%s
 D i-cstrea.ads		19700101000000 ffd01b9d interfaces.c_streams%s
-D must.adb		20260126231134 f14a06ed must%b
-D must_types.ads	20260126232215 492041e8 must_types%s
+D must.adb		20260205150434 9ecf49b8 must%b
+D must_types.ads	20260205150014 981f4ebd must_types%s
 D mustache_engine.ads	20260117010922 6fc0c2f5 mustache_engine%s
 D mustfile_loader.ads	20260117010922 6987dea6 mustfile_loader%s
 D requirement_checker.ads  20260126231140 8b1824cc requirement_checker%s
 D system.ads		19700101000000 14286b0f system%s
+D s-assert.ads		19700101000000 9c4520c7 system.assertions%s
 D s-atocou.ads		19700101000000 dc18efc3 system.atomic_counters%s
 D s-conca2.ads		19700101000000 b5fb73f7 system.concat_2%s
 D s-conca3.ads		19700101000000 8a7a19a2 system.concat_3%s
@@ -113,185 +115,187 @@ D s-unstyp.ads		19700101000000 fa2a7f59 system.unsigned_types%s
 D s-wchcon.ads		19700101000000 d9032363 system.wch_con%s
 D task_runner.ads	20260117010922 b80bbbd4 task_runner%s
 G a e
-G c Z b b [must standard 21 11 none]
-G r c none [must standard 21 11 none] [parse cli_parser 46 13 none]
-G r s mustfile_config [must standard 21 11 none] [mustfile_configIP must_types 106 9 none]
-G r l mustfile_config [must standard 21 11 none] [mustfile_configDI must_types 106 9 none]
-G r k mustfile_config [must standard 21 11 none] [mustfile_configDF must_types 106 9 none]
-G r c none [must standard 21 11 none] [show_help cli_parser 52 14 none]
-G r c none [must standard 21 11 none] [show_version cli_parser 55 14 none]
-G r c none [must standard 21 11 none] [mustfile_exists mustfile_loader 16 13 none]
-G r c none [must standard 21 11 none] [create_default_mustfile mustfile_loader 25 14 none]
-G r c none [must standard 21 11 none] [load mustfile_loader 19 13 none]
-G r j mustfile_config [must standard 21 11 none] [mustfile_configDA must_types 106 9 none]
-G r c none [must standard 21 11 none] [list_tasks task_runner 20 14 none]
-G r c none [must standard 21 11 none] [task_exists task_runner 23 13 none]
-G r c none [must standard 21 11 none] [run_task task_runner 13 14 none]
-G r c none [must standard 21 11 none] [apply_named mustache_engine 37 14 none]
-G r c none [must standard 21 11 none] [apply_all mustache_engine 31 14 none]
-G r c none [must standard 21 11 none] [check requirement_checker 33 14 none]
-G r c none [must standard 21 11 none] [fix requirement_checker 39 14 none]
-G r c none [must standard 21 11 none] [enforce requirement_checker 45 14 none]
-G r c none [must standard 21 11 none] [list_templates mustache_engine 45 14 none]
-G r c none [must standard 21 11 none] [deploy deployer 22 14 none]
+G c Z b b [must standard 20 11 none]
+G r c none [must standard 20 11 none] [parse cli_parser 46 13 none]
+G r s mustfile_config [must standard 20 11 none] [mustfile_configIP must_types 158 9 none]
+G r l mustfile_config [must standard 20 11 none] [mustfile_configDI must_types 158 9 none]
+G r k mustfile_config [must standard 20 11 none] [mustfile_configDF must_types 158 9 none]
+G r c none [must standard 20 11 none] [show_help cli_parser 52 14 none]
+G r c none [must standard 20 11 none] [show_version cli_parser 55 14 none]
+G r c none [must standard 20 11 none] [mustfile_exists mustfile_loader 16 13 none]
+G r c none [must standard 20 11 none] [create_default_mustfile mustfile_loader 25 14 none]
+G r c none [must standard 20 11 none] [load mustfile_loader 19 13 none]
+G r j mustfile_config [must standard 20 11 none] [mustfile_configDA must_types 158 9 none]
+G r c none [must standard 20 11 none] [list_tasks task_runner 20 14 none]
+G r c none [must standard 20 11 none] [to_string must_types 170 13 none]
+G r c none [must standard 20 11 none] [task_exists task_runner 23 13 none]
+G r c none [must standard 20 11 none] [run_task task_runner 13 14 none]
+G r c none [must standard 20 11 none] [apply_named mustache_engine 37 14 none]
+G r c none [must standard 20 11 none] [apply_all mustache_engine 31 14 none]
+G r c none [must standard 20 11 none] [check requirement_checker 33 14 none]
+G r c none [must standard 20 11 none] [fix requirement_checker 39 14 none]
+G r c none [must standard 20 11 none] [enforce requirement_checker 45 14 none]
+G r c none [must standard 20 11 none] [list_templates mustache_engine 45 14 none]
+G r c none [must standard 20 11 none] [deploy deployer 22 14 none]
 X 1 ada.ads
-18K9*Ada 22e8 29|8r6 8r23 9r6 10r6 11r6 37r16 37r50 46r16 46r50 50r16 50r50
-. 56r16 56r50 66r16 66r50 77r19 77r53 91r16 91r50 97r16 116r16 116r50 128r19
-. 128r53 134r16 134r50 147r16 147r50 160r19 160r53 166r16 166r50 176r16 176r50
-. 191r19 191r53 198r29 199r7 199r41 202r29 203r7 203r41 206r29 207r7 207r41
-. 210r29 211r7 211r41 214r29 215r7 215r41 218r36 219r7 219r41 222r40 223r33
-. 224r7 224r41
-X 4 a-comlin.ads
-40K13*Command_Line 148e21 29|9w10 37r20 37r54 46r20 46r54 50r20 50r54 56r20
-. 56r54 66r20 66r54 77r23 77r57 91r20 91r54 116r20 116r54 128r23 128r57 134r20
-. 134r54 147r20 147r54 160r23 160r57 166r20 166r54 176r20 176r54 191r23 191r57
-. 199r11 199r45 203r11 203r45 207r11 207r45 211r11 211r45 215r11 215r45 219r11
-. 219r45 224r11 224r45
+18K9*Ada 22e8 33|8r6 8r23 9r6 10r6 36r16 36r50 45r16 45r50 49r16 49r50 55r16
+. 55r50 65r16 65r50 76r19 76r53 90r16 90r50 115r16 115r50 127r19 127r53 133r16
+. 133r50 146r16 146r50 159r19 159r53 165r16 165r50 175r16 175r50 190r19 190r53
+. 197r29 198r7 198r41 201r29 202r7 202r41 205r29 206r7 206r41 209r29 210r7
+. 210r41 213r29 214r7 214r41 217r36 218r7 218r41 221r40 222r33 223r7 223r41
+X 5 a-comlin.ads
+40K13*Command_Line 148e21 33|9w10 36r20 36r54 45r20 45r54 49r20 49r54 55r20
+. 55r54 65r20 65r54 76r23 76r57 90r20 90r54 115r20 115r54 127r23 127r57 133r20
+. 133r54 146r20 146r54 159r23 159r57 165r20 165r54 175r20 175r54 190r23 190r57
+. 198r11 198r45 202r11 202r45 206r11 206r45 210r11 210r45 214r11 214r45 218r11
+. 218r45 223r11 223r45
 74I9*Exit_Status<integer>
-77i4*Failure{74I9} 29|37r67 46r67 50r67 56r67 66r67 77r70 91r67 116r67 128r70
-. 134r67 147r67 160r70 166r67 176r67 191r70 199r58 203r58 207r58 211r58 215r58
-. 219r58 224r58
-79U14*Set_Exit_Status 29|37s33 46s33 50s33 56s33 66s33 77s36 91s33 116s33
-. 128s36 134s33 147s33 160s36 166s33 176s33 191s36 199s24 203s24 207s24 211s24
-. 215s24 219s24 224s24
-X 7 a-ciorma.ads
-57R9*Map<11|43R9>
-X 10 a-except.ads
-44K13*Exceptions 309e19 29|10w10 198r33 202r33 206r33 210r33 214r33 218r40
-. 222r44 223r37
-62V13*Exception_Name{string} 29|223s48
-84V13*Exception_Message{string} 29|198s44 202s44 206s44 210s44 214s44 218s51
-. 222s55
-X 13 a-iteint.ads
+77i4*Failure{74I9} 33|36r67 45r67 49r67 55r67 65r67 76r70 90r67 115r67 127r70
+. 133r67 146r67 159r70 165r67 175r67 190r70 198r58 202r58 206r58 210r58 214r58
+. 218r58 223r58
+79U14*Set_Exit_Status 33|36s33 45s33 49s33 55s33 65s33 76s36 90s33 115s33
+. 127s36 133s33 146s33 159s36 165s33 175s33 190s36 198s24 202s24 206s24 210s24
+. 214s24 218s24 223s24
+X 9 a-coorma.ads
+57R9*Map<13|43R9>
+X 12 a-except.ads
+44K13*Exceptions 309e19 33|10w10 197r33 201r33 205r33 209r33 213r33 217r40
+. 221r44 222r37
+62V13*Exception_Name{string} 33|222s48
+84V13*Exception_Message{string} 33|197s44 201s44 205s44 209s44 213s44 217s51
+. 221s55
+X 15 a-iteint.ads
 24h9 Forward_Iterator
-32h9 Reversible_Iterator<24R9[7|78]>
-X 15 a-string.ads
-16K13*Strings 35e16 29|11r10 97r20
-X 19 a-strunb.ads
-91K21*Unbounded 1641e26 29|11w18 97r28
-111V13*Length{natural} 29|97s38
-269V14*"="{boolean} 8|45i19
-X 22 a-textio.ads
-58K13*Text_IO 785e16 29|8w10 8r27
-565U14*Put_Line 29|36s16 44s16 45s16 48s16 49s16 55s16 65s16 75s19 76s19
-. 90s16 115s16 133s16 146s16 165s16 175s16 198s7 202s7 206s7 210s7 214s7
-. 218s7 222s7 223s7
-X 24 cli_parser.ads
-11K9*CLI_Parser 60e15 29|14w6 14r22 197r13
-15n7*Cmd_None{14E9} 29|42r15
-16n7*Cmd_Help{14E9} 29|28r15
-17n7*Cmd_Version{14E9} 29|31r15
-18n7*Cmd_List{14E9} 29|53r15
-19n7*Cmd_Init{14E9} 29|34r15
-20n7*Cmd_Run_Task{14E9} 29|63r15
-21n7*Cmd_Apply{14E9} 29|88r15
-22n7*Cmd_Check{14E9} 29|113r15
-23n7*Cmd_Fix{14E9} 29|131r15
-24n7*Cmd_Enforce{14E9} 29|144r15
-25n7*Cmd_Templates{14E9} 29|163r15
-26n7*Cmd_Deploy{14E9} 29|173r15
-29R9*Parsed_Args 43e14 29|24r25
-30e7*Command{14E9} 29|27r17
-31r7*Task_Name{19|105R9} 29|72r74
-32r7*Template_Name{19|105R9} 29|97r51 101r63
-33r7*Variables{30|27R12} 29|102r41
-35b7*Strict{boolean} 29|124r35 155r35
-36b7*Dry_Run{boolean} 29|84r37 103r41 109r35 141r32 156r35 187r35
-37b7*Verbose{boolean} 29|85r37 104r41 110r35 125r35 142r32 157r35 188r35
-40r7*Deploy_Target{19|105R9} 29|184r57
-41b7*Deploy_Push{boolean} 29|186r35
-42r7*Deploy_Tag{19|105R9} 29|185r57
-46V13*Parse{29R9} 29|24s40
-52U14*Show_Help 29|29s13
-55U14*Show_Version 29|32s13
-58X4*Parse_Error 29|197r24
-X 25 deployer.ads
-10K9*Deployer 48e13 29|19w6 182r16 190r21 217r13
-22U14*Deploy 29|182s25
-23r7 Config{30|106R9} 29|183r19
-24a7 Target{string} 29|184r19
-25a7 Tag{string} 29|185r19
-26b7 Push{boolean} 29|186r19
-27b7 Dry_Run{boolean} 29|187r19
-28b7 Verbose{boolean} 29|188r19
-46X4*Deploy_Error 29|190r30 217r22
-X 29 must.adb
-21U11*Must 21b11 226l5 226t9
-24r7 Args{24|29R9} 27r12 72r69 84r32 85r32 97r46 101r58 102r36 103r36 104r36
-. 109r30 110r30 124r30 125r30 141r27 142r27 155r30 156r30 157r30 184r52 185r52
-. 186r30 187r30 188r30
-25r7 Config{30|106R9} 60m13 60r13 61r37 70m13 70r13 74r48 82r32 95m13 95r13
-. 100r36 108r30 120m13 120r13 123r30 138m13 138r13 140r27 151m13 151r13 154r30
-. 170m13 170r13 171r45 180m13 180r13 183r30
-72a16 Task_Name{string} 74r56 75r55 83r32
-197r9 E{10|53R9} 198r63
-201r9 E{10|53R9} 202r63
-205r9 E{10|53R9} 206r63
-209r9 E{10|53R9} 210r63
-213r9 E{10|53R9} 214r63
-217r9 E{10|53R9} 218r70
-221r9 E{10|53R9} 222r74 223r64
-X 30 must_types.ads
-12K9*Must_Types 29|13w6 13r22 72r47 101r36 184r30 185r30 30|122e15
-27R12*String_Map{7|57R9[23]}
-106R9*Mustfile_Config 29|25r16 30|113e14
-116V13*To_String=117:36{string} 29|72s58 101s47 184s41 185s41
-X 31 mustache_engine.ads
-10K9*Mustache_Engine 29|17w6 99r16 107r16 171r13 213r13 31|55e20
-31U14*Apply_All 29|107s32
-32r7 Config{30|106R9} 29|108r19
-33b7 Dry_Run{boolean} 29|109r19
-34b7 Verbose{boolean} 29|110r19
-37U14*Apply_Named 29|99s32
-38r7 Config{30|106R9} 29|100r19
-39a7 Template_Name{string} 29|101r19
-40r7 Variables{30|27R12} 29|102r19
-41b7 Dry_Run{boolean} 29|103r19
-42b7 Verbose{boolean} 29|104r19
-45U14*List_Templates 29|171s29
-53X4*Template_Error 29|213r29
-X 32 mustfile_loader.ads
-10K9*Mustfile_Loader 29|15w6 35r16 39r16 43r20 54r20 60r23 64r20 70r23 89r20
-. 95r23 114r20 120r23 132r20 138r23 145r20 151r23 164r20 170r23 174r20 180r23
-. 201r13 32|33e20
-16V13*Mustfile_Exists{boolean} 29|35s32 43s36 54s36 64s36 89s36 114s36 132s36
-. 145s36 164s36 174s36
-19V13*Load{30|106R9} 29|60s39 70s39 95s39 120s39 138s39 151s39 170s39 180s39
-25U14*Create_Default_Mustfile 29|39s32
-31X4*Load_Error 29|201r29
-X 33 requirement_checker.ads
-12K9*Requirement_Checker 29|18w6 122r16 127r21 139r13 153r16 159r21 33|57e24
-33U14*Check 29|122s36
-34r7 Config{30|106R9} 29|123r19
-35b7 Strict{boolean} 29|124r19
-36b7 Verbose{boolean} 29|125r19
-39U14*Fix 29|139s33
-40r7 Config{30|106R9} 29|140r16
-41b7 Dry_Run{boolean} 29|141r16
-42b7 Verbose{boolean} 29|142r16
-45U14*Enforce 29|153s36
-46r7 Config{30|106R9} 29|154r19
-47b7 Strict{boolean} 29|155r19
-48b7 Dry_Run{boolean} 29|156r19
-49b7 Verbose{boolean} 29|157r19
-55X4*Requirement_Failed 29|127r41 159r41
-X 34 system.ads
+32h9 Reversible_Iterator<24R9[9|78]>
+X 18 a-strbou.ads
+78R12*Bounded_String<21|65R9>
+86I15*Length_Range{natural}
+88V16*Length{86I15[34|28]} 33|96s32[34|28]
+630V17*"="{boolean}<21|688p13> 9|46i19[34|28] 11|65i19[34|28]
+651V17*"<"{boolean} 9|45i19[34|28]
+X 26 a-textio.ads
+58K13*Text_IO 785e16 33|8w10 8r27
+565U14*Put_Line 33|35s16 43s16 44s16 47s16 48s16 54s16 64s16 74s19 75s19
+. 89s16 114s16 132s16 145s16 164s16 174s16 197s7 201s7 205s7 209s7 213s7
+. 217s7 221s7 222s7
+X 28 cli_parser.ads
+11K9*CLI_Parser 60e15 33|13w6 13r22 196r13
+15n7*Cmd_None{14E9} 33|41r15
+16n7*Cmd_Help{14E9} 33|27r15
+17n7*Cmd_Version{14E9} 33|30r15
+18n7*Cmd_List{14E9} 33|52r15
+19n7*Cmd_Init{14E9} 33|33r15
+20n7*Cmd_Run_Task{14E9} 33|62r15
+21n7*Cmd_Apply{14E9} 33|87r15
+22n7*Cmd_Check{14E9} 33|112r15
+23n7*Cmd_Fix{14E9} 33|130r15
+24n7*Cmd_Enforce{14E9} 33|143r15
+25n7*Cmd_Templates{14E9} 33|162r15
+26n7*Cmd_Deploy{14E9} 33|172r15
+29R9*Parsed_Args 43e14 33|23r25
+30e7*Command{14E9} 33|26r17
+31r7*Task_Name{34|30R12} 33|71r74
+32r7*Template_Name{34|30R12} 33|96r45 100r63
+33r7*Variables{34|155R12} 33|101r41
+35b7*Strict{boolean} 33|123r35 154r35
+36b7*Dry_Run{boolean} 33|83r37 102r41 108r35 140r32 155r35 186r35
+37b7*Verbose{boolean} 33|84r37 103r41 109r35 124r35 141r32 156r35 187r35
+40r7*Deploy_Target{34|30R12} 33|183r57
+41b7*Deploy_Push{boolean} 33|185r35
+42r7*Deploy_Tag{34|30R12} 33|184r57
+46V13*Parse{29R9} 33|23s40
+52U14*Show_Help 33|28s13
+55U14*Show_Version 33|31s13
+58X4*Parse_Error 33|196r24
+X 29 deployer.ads
+10K9*Deployer 48e13 33|18w6 181r16 189r21 216r13
+22U14*Deploy 33|181s25
+23r7 Config{34|158R9} 33|182r19
+24a7 Target{string} 33|183r19
+25a7 Tag{string} 33|184r19
+26b7 Push{boolean} 33|185r19
+27b7 Dry_Run{boolean} 33|186r19
+28b7 Verbose{boolean} 33|187r19
+46X4*Deploy_Error 33|189r30 216r22
+X 33 must.adb
+20U11*Must 20b11 225l5 225t9
+23r7 Args{28|29R9} 26r12 71r69 83r32 84r32 96r40 100r58 101r36 102r36 103r36
+. 108r30 109r30 123r30 124r30 140r27 141r27 154r30 155r30 156r30 183r52 184r52
+. 185r30 186r30 187r30
+24r7 Config{34|158R9} 59m13 59r13 60r37 69m13 69r13 73r48 81r32 94m13 94r13
+. 99r36 107r30 119m13 119r13 122r30 137m13 137r13 139r27 150m13 150r13 153r30
+. 169m13 169r13 170r45 179m13 179r13 182r30
+71a16 Task_Name{string} 73r56 74r55 82r32
+196r9 E{12|53R9} 197r63
+200r9 E{12|53R9} 201r63
+204r9 E{12|53R9} 205r63
+208r9 E{12|53R9} 209r63
+212r9 E{12|53R9} 213r63
+216r9 E{12|53R9} 217r70
+220r9 E{12|53R9} 221r74 222r64
+X 34 must_types.ads
+13K9*Must_Types 33|12w6 12r22 71r47 100r36 183r30 184r30 34|206e15
+28K12*Bounded_Strings[18|60] 33|96r16
+30R12*Bounded_String{18|78R12[28]}
+155R12*String_Map{9|57R9[151]}
+158R9*Mustfile_Config 33|24r16 34|165e15
+170V13*To_String{string} 33|71s58 100s47 183s41 184s41
+X 35 mustache_engine.ads
+10K9*Mustache_Engine 33|16w6 98r16 106r16 170r13 212r13 35|55e20
+31U14*Apply_All 33|106s32
+32r7 Config{34|158R9} 33|107r19
+33b7 Dry_Run{boolean} 33|108r19
+34b7 Verbose{boolean} 33|109r19
+37U14*Apply_Named 33|98s32
+38r7 Config{34|158R9} 33|99r19
+39a7 Template_Name{string} 33|100r19
+40r7 Variables{34|155R12} 33|101r19
+41b7 Dry_Run{boolean} 33|102r19
+42b7 Verbose{boolean} 33|103r19
+45U14*List_Templates 33|170s29
+53X4*Template_Error 33|212r29
+X 36 mustfile_loader.ads
+10K9*Mustfile_Loader 33|14w6 34r16 38r16 42r20 53r20 59r23 63r20 69r23 88r20
+. 94r23 113r20 119r23 131r20 137r23 144r20 150r23 163r20 169r23 173r20 179r23
+. 200r13 36|33e20
+16V13*Mustfile_Exists{boolean} 33|34s32 42s36 53s36 63s36 88s36 113s36 131s36
+. 144s36 163s36 173s36
+19V13*Load{34|158R9} 33|59s39 69s39 94s39 119s39 137s39 150s39 169s39 179s39
+25U14*Create_Default_Mustfile 33|38s32
+31X4*Load_Error 33|200r29
+X 37 requirement_checker.ads
+12K9*Requirement_Checker 33|17w6 121r16 126r21 138r13 152r16 158r21 37|57e24
+33U14*Check 33|121s36
+34r7 Config{34|158R9} 33|122r19
+35b7 Strict{boolean} 33|123r19
+36b7 Verbose{boolean} 33|124r19
+39U14*Fix 33|138s33
+40r7 Config{34|158R9} 33|139r16
+41b7 Dry_Run{boolean} 33|140r16
+42b7 Verbose{boolean} 33|141r16
+45U14*Enforce 33|152s36
+46r7 Config{34|158R9} 33|153r19
+47b7 Strict{boolean} 33|154r19
+48b7 Dry_Run{boolean} 33|155r19
+49b7 Verbose{boolean} 33|156r19
+55X4*Requirement_Failed 33|126r41 158r41
+X 38 system.ads
 67M9*Address
-X 43 s-memory.ads
-51V13*Alloc{34|67M9} 101i<c,__gnat_malloc>22
+X 48 s-memory.ads
+51V13*Alloc{38|67M9} 101i<c,__gnat_malloc>22
 66U14*Free 102i<c,__gnat_free>22
-74V13*Realloc{34|67M9} 103i<c,__gnat_realloc>22
-X 54 s-stalib.adb
+74V13*Realloc{38|67M9} 103i<c,__gnat_realloc>22
+X 59 s-stalib.adb
 87U14 Break_Start 88i<c,__gnat_break_start>22
-X 61 task_runner.ads
-10K9*Task_Runner 29|16w6 61r13 74r23 81r16 205r13 209r13 61|43e16
-13U14*Run_Task 29|81s28
-14r7 Config{30|106R9} 29|82r19
-15a7 Task_Name{string} 29|83r19
-16b7 Dry_Run{boolean} 29|84r19
-17b7 Verbose{boolean} 29|85r19
-20U14*List_Tasks 29|61s25
-23V13*Task_Exists{boolean} 29|74s35
-38X4*Task_Error 29|205r25
-41X4*Circular_Dependency 29|209r25
+X 66 task_runner.ads
+10K9*Task_Runner 33|15w6 60r13 73r23 80r16 204r13 208r13 66|43e16
+13U14*Run_Task 33|80s28
+14r7 Config{34|158R9} 33|81r19
+15a7 Task_Name{string} 33|82r19
+16b7 Dry_Run{boolean} 33|83r19
+17b7 Verbose{boolean} 33|84r19
+20U14*List_Tasks 33|60s25
+23V13*Task_Exists{boolean} 33|73s35
+38X4*Task_Error 33|204r25
+41X4*Circular_Dependency 33|208r25
 

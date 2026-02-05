@@ -1,0 +1,32 @@
+mustache_engine.adb:12:06: warning: redundant with clause in body [-gnatwr]
+mustache_engine.adb:146:42: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+mustache_engine.adb:146:42: error: found type "Standard.String"
+mustache_engine.adb:148:52: error: container cannot be indexed with subtype of "String"
+mustache_engine.adb:176:46: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+mustache_engine.adb:176:46: error: found type "Standard.String"
+mustache_engine.adb:177:22: error: container cannot be indexed with subtype of "String"
+mustache_engine.adb:178:22: error: container cannot be indexed with subtype of "String"
+mustache_engine.adb:227:42: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+mustache_engine.adb:227:42: error: found type "Standard.String"
+mustache_engine.adb:228:38: error: container cannot be indexed with subtype of "String"
+mustache_engine.adb:239:59: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+mustache_engine.adb:239:59: error: found type "Standard.String"
+mustache_engine.adb:242:38: error: container cannot be indexed with "String"
+mustache_engine.adb:254:42: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+mustache_engine.adb:254:42: error: found type "Standard.String"
+mustache_engine.adb:257:54: error: container cannot be indexed with subtype of "String"
+mustache_engine.adb:334:51: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+mustache_engine.adb:334:51: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+mustache_engine.adb:335:51: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+mustache_engine.adb:335:51: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+mustache_engine.adb:367:54: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+mustache_engine.adb:367:54: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+mustache_engine.adb:368:54: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+mustache_engine.adb:368:54: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+mustache_engine.adb:395:22: error: expected private type "Ada.Strings.Unbounded.Unbounded_String"
+mustache_engine.adb:395:22: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+mustache_engine.adb:396:33: error: expected private type "Ada.Strings.Unbounded.Unbounded_String"
+mustache_engine.adb:396:33: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+mustache_engine.adb:406:65: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+mustache_engine.adb:406:65: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:38
+mustache_engine.adb:408:15: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]

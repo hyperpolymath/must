@@ -46,4 +46,14 @@ project Must is
       for Switches ("Ada") use ("-j0");  -- Use all available CPUs
    end Builder;
 
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=4",           -- Maximum proof level
+         "--timeout=60",        -- 60 second timeout per proof
+         "--steps=10000",       -- Maximum proof steps
+         "--counterexamples=on", -- Show counterexamples
+         "--warnings=error",    -- Treat warnings as errors
+         "--pedantic");         -- Pedantic checking
+   end Prove;
+
 end Must;

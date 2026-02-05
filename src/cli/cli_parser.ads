@@ -1,12 +1,12 @@
 -- cli_parser.ads
 -- Command-line argument parser for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
 with Must_Types; use Must_Types;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package CLI_Parser is
 
@@ -25,21 +25,21 @@ package CLI_Parser is
       Cmd_Templates,
       Cmd_Deploy);
 
-   --  Parsed arguments
+   --  Parsed arguments (now using bounded strings for safety)
    type Parsed_Args is record
       Command        : Command_Type := Cmd_None;
-      Task_Name      : Unbounded_String;
-      Template_Name  : Unbounded_String;
+      Task_Name      : Bounded_String;
+      Template_Name  : Bounded_String;
       Variables      : String_Map;
-      Vars_File      : Unbounded_String;
+      Vars_File      : Bounded_Path;  -- File paths can be long
       Strict         : Boolean := False;
       Dry_Run        : Boolean := False;
       Verbose        : Boolean := False;
       Extra_Args     : String_Vector;
       --  Deploy-specific options
-      Deploy_Target  : Unbounded_String;  --  Target OS/container
+      Deploy_Target  : Bounded_String;  --  Target OS/container
       Deploy_Push    : Boolean := False;  --  Push to registry
-      Deploy_Tag     : Unbounded_String;  --  Container tag
+      Deploy_Tag     : Bounded_String;  --  Container tag
    end record;
 
    --  Parse command-line arguments

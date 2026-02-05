@@ -1,0 +1,4 @@
+deployer.adb:11:06: warning: redundant with clause in body [-gnatwr]
+deployer.adb:34:07: warning: variable "Return_Code" is never read and never assigned [-gnatwu]
+deployer.adb:224:07: warning: useless handler contains only a reraise statement [-gnatwr]
+deployer.adb:224:12: warning: variable "E" is not referenced [-gnatwu]

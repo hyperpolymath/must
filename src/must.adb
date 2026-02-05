@@ -8,7 +8,6 @@ pragma Ada_2022;
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Command_Line;
 with Ada.Exceptions;
-with Ada.Strings.Unbounded;
 
 with Must_Types; use Must_Types;
 with CLI_Parser; use CLI_Parser;
@@ -94,7 +93,7 @@ begin
 
             Config := Mustfile_Loader.Load;
 
-            if Ada.Strings.Unbounded.Length (Args.Template_Name) > 0 then
+            if Bounded_Strings.Length (Args.Template_Name) > 0 then
                --  Apply specific template
                Mustache_Engine.Apply_Named
                  (Config        => Config,

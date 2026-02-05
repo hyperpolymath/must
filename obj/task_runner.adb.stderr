@@ -1,0 +1,50 @@
+task_runner.adb:12:06: warning: redundant with clause in body [-gnatwr]
+task_runner.adb:20:18: error: operator for private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28 is not directly visible
+task_runner.adb:20:18: error: add with_clause and use_clause for "Vectors"
+task_runner.adb:75:24: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:75:24: error: found type "Standard.String"
+task_runner.adb:80:38: error: expected type "Standard.String"
+task_runner.adb:80:38: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:82:68: error: no legal interpretation for operator "&"
+task_runner.adb:82:68: error: use clause on "Bounded_Strings" would make operation legal
+task_runner.adb:84:23: error: expected type "Standard.String"
+task_runner.adb:84:23: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:92:21: error: operator for private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28 is not directly visible
+task_runner.adb:92:21: error: add with_clause and use_clause for "Vectors"
+task_runner.adb:100:23: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:100:23: error: found type "Standard.String"
+task_runner.adb:101:22: error: expected private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:101:22: error: found type "Standard.String"
+task_runner.adb:163:19: error: expected private type "Ada.Strings.Unbounded.Unbounded_String"
+task_runner.adb:163:19: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+task_runner.adb:165:56: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+task_runner.adb:165:56: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+task_runner.adb:168:67: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+task_runner.adb:168:67: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+task_runner.adb:173:19: error: expected private type "Ada.Strings.Unbounded.Unbounded_String"
+task_runner.adb:173:19: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:33
+task_runner.adb:182:66: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+task_runner.adb:182:66: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:33
+task_runner.adb:193:31: error: no legal interpretation for operator "&"
+task_runner.adb:193:31: error: use clause on "Bounded_Commands" would make operation legal
+task_runner.adb:199:46: error: expected type "Standard.String"
+task_runner.adb:199:46: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:33
+task_runner.adb:202:43: error: no legal interpretation for operator "&"
+task_runner.adb:202:43: error: use clause on "Bounded_Commands" would make operation legal
+task_runner.adb:210:19: error: expected private type "Ada.Strings.Unbounded.Unbounded_String"
+task_runner.adb:210:19: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:23
+task_runner.adb:229:56: error: expected type "Standard.String"
+task_runner.adb:229:56: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:231:21: error: operator for private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28 is not directly visible
+task_runner.adb:231:21: error: add with_clause and use_clause for "Vectors"
+task_runner.adb:232:38: error: no legal interpretation for operator "&"
+task_runner.adb:232:38: error: use clause on "Bounded_Strings" would make operation legal
+task_runner.adb:234:49: error: no legal interpretation for operator "&"
+task_runner.adb:234:49: error: use clause on "Bounded_Strings" would make operation legal
+task_runner.adb:258:22: error: expected private type "Ada.Strings.Unbounded.Unbounded_String"
+task_runner.adb:258:22: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:259:33: error: expected private type "Ada.Strings.Unbounded.Unbounded_String"
+task_runner.adb:259:33: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:28
+task_runner.adb:269:62: error: expected private type "Must_Types.Bounded_String" defined at must_types.ads:30
+task_runner.adb:269:62: error: found private type "Ada.Strings.Bounded.Bounded_String" from instance at must_types.ads:38
+task_runner.adb:271:15: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]

@@ -1,7 +1,8 @@
 -- cli_parser.adb
 -- Command-line argument parser for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
@@ -17,7 +18,16 @@ package body CLI_Parser is
       Args : String_Vector;
    begin
       for I in 1 .. Ada.Command_Line.Argument_Count loop
-         Args.Append (Ada.Command_Line.Argument (I));
+         declare
+            Arg : constant String := Ada.Command_Line.Argument (I);
+         begin
+            if Arg'Length > Max_String_Length then
+               raise Parse_Error with
+                 "Argument too long (max " &
+                 Max_String_Length'Image & " chars): " & Arg (Arg'First .. Arg'First + 50) & "...";
+            end if;
+            Args.Append (Must_Types.To_Bounded (Arg));
+         end;
       end loop;
       return Args;
    end Get_Arguments;
@@ -27,19 +37,27 @@ package body CLI_Parser is
       Args   : constant String_Vector := Get_Arguments;
       I      : Positive := 1;
 
-      procedure Parse_Var (Arg : String) is
+      procedure Parse_Var (Arg : Bounded_String) is
+         Arg_Str : constant String := Must_Types.To_String (Arg);
          Eq_Pos : constant Natural :=
-           Ada.Strings.Fixed.Index (Arg, "=");
+           Ada.Strings.Fixed.Index (Arg_Str, "=");
       begin
          if Eq_Pos = 0 then
-            raise Parse_Error with "Invalid --var format: " & Arg;
+            raise Parse_Error with "Invalid --var format: " & Arg_Str;
          end if;
 
          declare
-            Key   : constant String := Arg (Arg'First .. Eq_Pos - 1);
-            Value : constant String := Arg (Eq_Pos + 1 .. Arg'Last);
+            Key   : constant String := Arg_Str (Arg_Str'First .. Eq_Pos - 1);
+            Value : constant String := Arg_Str (Eq_Pos + 1 .. Arg_Str'Last);
          begin
-            Result.Variables.Include (Key, Value);
+            if Key'Length > Max_String_Length then
+               raise Parse_Error with "Variable key too long: " & Key;
+            end if;
+            if Value'Length > Max_String_Length then
+               raise Parse_Error with "Variable value too long: " & Value;
+            end if;
+            Result.Variables.Include (Must_Types.To_Bounded (Key),
+                                      Must_Types.To_Bounded (Value));
          end;
       end Parse_Var;
 
@@ -51,7 +69,8 @@ package body CLI_Parser is
 
       while I <= Natural (Args.Length) loop
          declare
-            Arg : constant String := Args (I);
+            Arg_Bounded : constant Bounded_String := Args (I);
+            Arg : constant String := Must_Types.To_String (Arg_Bounded);
          begin
             if Arg = "--help" or else Arg = "-h" then
                Result.Command := Cmd_Help;
@@ -78,7 +97,7 @@ package body CLI_Parser is
                if I > Natural (Args.Length) then
                   raise Parse_Error with "--template requires an argument";
                end if;
-               Result.Template_Name := To_Unbounded (Args (I));
+               Result.Template_Name := Args (I);
 
             elsif Arg = "--var" then
                I := I + 1;
@@ -92,7 +111,14 @@ package body CLI_Parser is
                if I > Natural (Args.Length) then
                   raise Parse_Error with "--vars requires a file argument";
                end if;
-               Result.Vars_File := To_Unbounded (Args (I));
+               declare
+                  File_Path : constant String := Must_Types.To_String (Args (I));
+               begin
+                  if File_Path'Length > Max_Path_Length then
+                     raise Parse_Error with "File path too long";
+                  end if;
+                  Result.Vars_File := Must_Types.To_Bounded_Path (File_Path);
+               end;
 
             elsif Arg = "init" then
                Result.Command := Cmd_Init;
@@ -120,14 +146,14 @@ package body CLI_Parser is
                if I > Natural (Args.Length) then
                   raise Parse_Error with "--target requires an argument";
                end if;
-               Result.Deploy_Target := To_Unbounded (Args (I));
+               Result.Deploy_Target := Args (I);
 
             elsif Arg = "--tag" then
                I := I + 1;
                if I > Natural (Args.Length) then
                   raise Parse_Error with "--tag requires an argument";
                end if;
-               Result.Deploy_Tag := To_Unbounded (Args (I));
+               Result.Deploy_Tag := Args (I);
 
             elsif Arg = "--push" then
                Result.Deploy_Push := True;
@@ -139,9 +165,9 @@ package body CLI_Parser is
                --  Task name or extra argument
                if Result.Command = Cmd_None then
                   Result.Command := Cmd_Run_Task;
-                  Result.Task_Name := To_Unbounded (Arg);
+                  Result.Task_Name := Arg_Bounded;
                else
-                  Result.Extra_Args.Append (Arg);
+                  Result.Extra_Args.Append (Arg_Bounded);
                end if;
             end if;
 
