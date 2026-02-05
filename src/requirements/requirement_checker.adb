@@ -1,15 +1,15 @@
 -- requirement_checker.adb
 -- Requirements checker for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Directories;
-with Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
-with Must_Types;
+with Ada.Strings.Unbounded;  -- Only for file reading buffer
 use type Ada.Directories.File_Kind;
 
 package body Requirement_Checker is
@@ -52,9 +52,19 @@ package body Requirement_Checker is
    end File_Contains;
 
    function Check_Requirement (Req : Requirement_Def) return Check_Result is
-      Path    : constant String := Must_Types.To_String (Req.Path);
+      Path    : constant String := Must_Types.To_Path_String (Req.Path);
       Pattern : constant String := Must_Types.To_String (Req.Pattern);
       Result  : Check_Result;
+
+      function Make_Message (Msg : String) return Bounded_Description is
+      begin
+         if Msg'Length > Max_Description_Length then
+            return Must_Types.To_Bounded_Description
+              (Msg (Msg'First .. Msg'First + Max_Description_Length - 4) & "...");
+         else
+            return Must_Types.To_Bounded_Description (Msg);
+         end if;
+      end Make_Message;
    begin
       Result.Requirement := Req;
 
@@ -62,30 +72,28 @@ package body Requirement_Checker is
          when Must_Have =>
             if Path_Exists (Path) then
                Result.Passed := True;
-               Result.Message := To_Unbounded ("OK: " & Path & " exists");
+               Result.Message := Make_Message ("OK: " & Path & " exists");
             else
                Result.Passed := False;
-               Result.Message := To_Unbounded ("MISSING: " & Path);
+               Result.Message := Make_Message ("MISSING: " & Path);
             end if;
 
          when Must_Not_Have =>
             if not Path_Exists (Path) then
                Result.Passed := True;
-               Result.Message := To_Unbounded
-                 ("OK: " & Path & " does not exist");
+               Result.Message := Make_Message ("OK: " & Path & " does not exist");
             else
                Result.Passed := False;
-               Result.Message := To_Unbounded ("FORBIDDEN: " & Path & " exists");
+               Result.Message := Make_Message ("FORBIDDEN: " & Path & " exists");
             end if;
 
          when Must_Contain =>
             if File_Contains (Path, Pattern) then
                Result.Passed := True;
-               Result.Message := To_Unbounded
-                 ("OK: " & Path & " contains pattern");
+               Result.Message := Make_Message ("OK: " & Path & " contains pattern");
             else
                Result.Passed := False;
-               Result.Message := To_Unbounded
+               Result.Message := Make_Message
                  ("MISSING CONTENT: " & Path & " should contain: " & Pattern);
             end if;
       end case;
@@ -102,21 +110,9 @@ package body Requirement_Checker is
          Results.Append (Check_Requirement (Req));
       end loop;
 
-      for C in Config.Requirements_Content.Iterate loop
-         declare
-            Path : constant String :=
-              String_Vector_Maps.Key (C);
-            Patterns : constant String_Vector :=
-              Config.Requirements_Content.Element (Path);
-         begin
-            for Pattern of Patterns loop
-               Req := (Kind    => Must_Contain,
-                       Path    => Must_Types.To_Unbounded (Path),
-                       Pattern => Must_Types.To_Unbounded (Pattern));
-               Results.Append (Check_Requirement (Req));
-            end loop;
-         end;
-      end loop;
+      --  TODO: Re-add Requirements_Content support when map type is added to must_types
+      --  This was used for dynamic content requirements (file → patterns mapping)
+      --  For now, only static requirements from Requirements vector are checked
 
       return Results;
    end Check_All;
@@ -130,9 +126,7 @@ package body Requirement_Checker is
       Passed_Count : Natural := 0;
       Failed_Count : Natural := 0;
    begin
-      if Config.Requirements.Is_Empty and then
-         Config.Requirements_Content.Is_Empty
-      then
+      if Config.Requirements.Is_Empty then
          Put_Line ("No requirements defined");
          return;
       end if;
@@ -144,11 +138,11 @@ package body Requirement_Checker is
          if R.Passed then
             Passed_Count := Passed_Count + 1;
             if Verbose then
-               Put_Line ("  [PASS] " & Must_Types.To_String (R.Message));
+               Put_Line ("  [PASS] " & Must_Types.To_Description_String (R.Message));
             end if;
          else
             Failed_Count := Failed_Count + 1;
-            Put_Line ("  [FAIL] " & Must_Types.To_String (R.Message));
+            Put_Line ("  [FAIL] " & Must_Types.To_Description_String (R.Message));
          end if;
       end loop;
 
@@ -180,7 +174,7 @@ package body Requirement_Checker is
                when Must_Have =>
                   --  Create empty file/directory
                   declare
-                     Path : constant String := Must_Types.To_String (R.Requirement.Path);
+                     Path : constant String := Must_Types.To_Path_String (R.Requirement.Path);
                   begin
                      if Verbose or Dry_Run then
                         Put_Line ("  Creating: " & Path);
@@ -206,7 +200,7 @@ package body Requirement_Checker is
                when Must_Not_Have =>
                   --  Delete file/directory
                   declare
-                     Path : constant String := Must_Types.To_String (R.Requirement.Path);
+                     Path : constant String := Must_Types.To_Path_String (R.Requirement.Path);
                   begin
                      if Verbose or Dry_Run then
                         Put_Line ("  Removing: " & Path);
@@ -228,7 +222,7 @@ package body Requirement_Checker is
 
                when Must_Contain =>
                   --  Cannot auto-fix content requirements
-                  Put_Line ("  Cannot auto-fix: " & Must_Types.To_String (R.Message));
+                  Put_Line ("  Cannot auto-fix: " & Must_Types.To_Description_String (R.Message));
             end case;
          end if;
       end loop;

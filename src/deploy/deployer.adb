@@ -1,14 +1,14 @@
 -- deployer.adb
 -- Container deployment for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
 with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Directories;       use Ada.Directories;
 with GNAT.OS_Lib;           use GNAT.OS_Lib;
-with Must_Types;
 
 package body Deployer is
 
@@ -31,7 +31,6 @@ package body Deployer is
       Verbose : Boolean)
    is
       Success : Boolean;
-      Return_Code : Integer;
    begin
       if Verbose or Dry_Run then
          Put ("  $ " & Command);
@@ -219,10 +218,6 @@ package body Deployer is
                Put_Line ("Local build complete: bin/must");
             end if;
       end case;
-
-   exception
-      when E : Deploy_Error =>
-         raise;
    end Deploy;
 
 end Deployer;

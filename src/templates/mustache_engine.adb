@@ -1,17 +1,44 @@
 -- mustache_engine.adb
 -- Mustache template engine for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Directories;
 with Ada.Strings.Fixed;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Must_Types;
+with Ada.Strings.Unbounded;
+
+use Ada.Strings.Unbounded;
 
 package body Mustache_Engine is
+
+   --  Helper: lookup variable in map with String key
+   function Get_Var (Variables : String_Map; Key : String) return String is
+      Bounded_Key : Bounded_String;
+   begin
+      if Key'Length > Max_String_Length then
+         return "";
+      end if;
+      Bounded_Key := Must_Types.To_Bounded (Key);
+      if Variables.Contains (Bounded_Key) then
+         return Must_Types.To_String (Variables.Element (Bounded_Key));
+      else
+         return "";
+      end if;
+   end Get_Var;
+
+   function Has_Var (Variables : String_Map; Key : String) return Boolean is
+      Bounded_Key : Bounded_String;
+   begin
+      if Key'Length > Max_String_Length then
+         return False;
+      end if;
+      Bounded_Key := Must_Types.To_Bounded (Key);
+      return Variables.Contains (Bounded_Key);
+   end Has_Var;
 
    --  Read entire file content
    function Read_File (Path : String) return String is
@@ -143,9 +170,9 @@ package body Mustache_Engine is
                   end if;
 
                   --  Check if variable is truthy
-                  if Variables.Contains (Name) then
+                  if Has_Var (Variables, Name) then
                      declare
-                        Value : constant String := Variables (Name);
+                        Value : constant String := Get_Var (Variables, Name);
                      begin
                         if Value'Length > 0 and then Value /= "false" then
                            --  Render section content
@@ -173,9 +200,9 @@ package body Mustache_Engine is
                   end if;
 
                   --  Render if variable is falsy
-                  if not Variables.Contains (Name) or else
-                     Variables (Name) = "" or else
-                     Variables (Name) = "false"
+                  if not Has_Var (Variables, Name) or else
+                     Get_Var (Variables, Name) = "" or else
+                     Get_Var (Variables, Name) = "false"
                   then
                      Append (Result, Render
                        (Template (Tag_End + 2 .. Sec_End - 1), Variables));
@@ -224,8 +251,8 @@ package body Mustache_Engine is
                   Name : constant String :=
                     Tag_Content (Tag_Content'First + 1 .. Tag_Content'Last - 1);
                begin
-                  if Variables.Contains (Name) then
-                     Append (Result, Variables (Name));
+                  if Has_Var (Variables, Name) then
+                     Append (Result, Get_Var (Variables, Name));
                   end if;
                end;
                I := Tag_End + 2;
@@ -234,13 +261,12 @@ package body Mustache_Engine is
                --  Unescaped variable {{&name}}
                declare
                   Name : constant String :=
-                    Tag_Content (Tag_Content'First + 2 .. Tag_Content'Last);
+                    Ada.Strings.Fixed.Trim
+                      (Tag_Content (Tag_Content'First + 2 .. Tag_Content'Last),
+                       Ada.Strings.Both);
                begin
-                  if Variables.Contains (Ada.Strings.Fixed.Trim
-                       (Name, Ada.Strings.Both))
-                  then
-                     Append (Result, Variables (Ada.Strings.Fixed.Trim
-                       (Name, Ada.Strings.Both)));
+                  if Has_Var (Variables, Name) then
+                     Append (Result, Get_Var (Variables, Name));
                   end if;
                end;
                I := Tag_End + 2;
@@ -251,10 +277,10 @@ package body Mustache_Engine is
                   Name : constant String := Ada.Strings.Fixed.Trim
                     (Tag_Content, Ada.Strings.Both);
                begin
-                  if Variables.Contains (Name) then
+                  if Has_Var (Variables, Name) then
                      --  HTML escape the value (basic escaping)
                      declare
-                        Value   : constant String := Variables (Name);
+                        Value   : constant String := Get_Var (Variables, Name);
                         Escaped : Unbounded_String;
                      begin
                         for C of Value loop
@@ -320,7 +346,7 @@ package body Mustache_Engine is
       Dry_Run : Boolean := False;
       Verbose : Boolean := False)
    is
-      Variables : String_Map := Config.Variables;
+      Variables : constant String_Map := Config.Variables;
    begin
       if Config.Templates.Is_Empty then
          Put_Line ("No templates defined");
@@ -331,8 +357,8 @@ package body Mustache_Engine is
 
       for T of Config.Templates loop
          Apply_Template
-           (Source      => Must_Types.To_String (T.Source),
-            Destination => Must_Types.To_String (T.Destination),
+           (Source      => Must_Types.To_Path_String (T.Source),
+            Destination => Must_Types.To_Path_String (T.Destination),
             Variables   => Variables,
             Dry_Run     => Dry_Run,
             Verbose     => Verbose);
@@ -364,8 +390,8 @@ package body Mustache_Engine is
          if Must_Types.To_String (T.Name) = Template_Name then
             Put_Line ("Applying template: " & Template_Name);
             Apply_Template
-              (Source      => Must_Types.To_String (T.Source),
-               Destination => Must_Types.To_String (T.Destination),
+              (Source      => Must_Types.To_Path_String (T.Source),
+               Destination => Must_Types.To_Path_String (T.Destination),
                Variables   => Merged_Vars,
                Dry_Run     => Dry_Run,
                Verbose     => Verbose);
@@ -392,8 +418,8 @@ package body Mustache_Engine is
 
       --  Find max name length
       for T of Config.Templates loop
-         if Length (T.Name) > Max_Len then
-            Max_Len := Length (T.Name);
+         if Must_Types.Bounded_Strings.Length (T.Name) > Max_Len then
+            Max_Len := Must_Types.Bounded_Strings.Length (T.Name);
          end if;
       end loop;
 
@@ -403,9 +429,9 @@ package body Mustache_Engine is
       for T of Config.Templates loop
          declare
             Name    : constant String := Must_Types.To_String (T.Name);
-            Desc    : constant String := Must_Types.To_String (T.Description);
+            Desc    : constant String := Must_Types.To_Description_String (T.Description);
             Padding : constant String (1 .. Max_Len - Name'Length + 2) :=
-              (others => ' ');
+              [others => ' '];
          begin
             if Desc'Length > 0 then
                Put_Line ("  " & Name & Padding & "# " & Desc);

@@ -1,25 +1,25 @@
 -- requirement_checker.ads
 -- Requirements checker for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
-with Ada.Containers.Indefinite_Vectors;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Containers.Vectors;
 with Must_Types; use Must_Types;
 
 package Requirement_Checker is
 
-   --  Check result
+   --  Check result (using bounded strings for safety)
    type Check_Result is record
       Passed      : Boolean;
-      Message     : Unbounded_String;
+      Message     : Bounded_Description;  -- Messages can be moderately long
       Requirement : Requirement_Def;
    end record;
 
    --  Check result vector
-   package Result_Vectors is new Ada.Containers.Indefinite_Vectors
+   package Result_Vectors is new Ada.Containers.Vectors
      (Index_Type   => Positive,
       Element_Type => Check_Result);
 

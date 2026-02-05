@@ -1,14 +1,14 @@
 -- toml_parser.adb
 -- TOML parser for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
 with Ada.Text_IO;
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps;
-with Ada.Strings.Unbounded;
 
 package body TOML_Parser is
 
@@ -24,7 +24,7 @@ package body TOML_Parser is
    function Make_String (S : String) return TOML_Value_Access is
    begin
       return new TOML_Value'(Kind => Val_String,
-                             Str_Val => Must_Types.To_Unbounded (S));
+                             Str_Val => To_Unbounded_String (S));
    end Make_String;
 
    function Make_Boolean (B : Boolean) return TOML_Value_Access is
@@ -65,7 +65,7 @@ package body TOML_Parser is
       I := I + 1;
       while I <= S'Last loop
          if S (I) = Quote then
-            return Must_Types.To_String (Result);
+            return To_String (Result);
          elsif S (I) = '\' and then I < S'Last then
             I := I + 1;
             case S (I) is
@@ -168,7 +168,7 @@ package body TOML_Parser is
 
    function Split_Path (Path : String) return String_Vector is
       Segments  : String_Vector;
-      Current   : Unbounded_String := Must_Types.To_Unbounded ("");
+      Current   : Unbounded_String := To_Unbounded_String ("");
       In_Quotes : Boolean := False;
       I         : Positive := Path'First;
    begin
@@ -179,20 +179,20 @@ package body TOML_Parser is
             if C = '"' then
                In_Quotes := not In_Quotes;
             elsif C = '.' and then not In_Quotes then
-               Segments.Append (Must_Types.To_String (Current));
-               Current := Must_Types.To_Unbounded ("");
+               Segments.Append (Must_Types.To_Bounded (To_String (Current)));
+               Current := To_Unbounded_String ("");
             elsif C = '\' and then In_Quotes and then I < Path'Last then
                I := I + 1;
-               Ada.Strings.Unbounded.Append (Current, Path (I));
+               Append (Current, Path (I));
             else
-               Ada.Strings.Unbounded.Append (Current, C);
+               Append (Current, C);
             end if;
          end;
          I := I + 1;
       end loop;
 
-      if Ada.Strings.Unbounded.Length (Current) > 0 or else Segments.Is_Empty then
-         Segments.Append (Must_Types.To_String (Current));
+      if Length (Current) > 0 or else Segments.Is_Empty then
+         Segments.Append (Must_Types.To_Bounded (To_String (Current)));
       end if;
 
       return Segments;
@@ -209,33 +209,39 @@ package body TOML_Parser is
       Current : TOML_Value_Access := null;
       Segments : constant String_Vector := Split_Path (Path);
       Key      : Unbounded_String;
+      Key_Str  : String := "";
    begin
       Parent := null;
-      Last_Key := Must_Types.To_Unbounded ("");
+      Last_Key := To_Unbounded_String ("");
 
       --  Start with doc root as implicit table
       for Segment of Segments loop
-         Key := Must_Types.To_Unbounded (Segment);
-         if Current = null then
-            --  At root level
-            if not Doc.Contains (Must_Types.To_String (Key)) then
-               Doc.Insert (Must_Types.To_String (Key), Make_Table);
+         declare
+            Seg_Str : constant String := Must_Types.To_String (Segment);
+         begin
+            Key := To_Unbounded_String (Seg_Str);
+            Key_Str := To_String (Key);
+            if Current = null then
+               --  At root level
+               if not Doc.Contains (Key_Str) then
+                  Doc.Insert (Key_Str, Make_Table);
+               end if;
+               Parent := null;
+               Current := Doc (Key_Str);
+            else
+               --  Inside a table
+               if Current.Kind /= Val_Table then
+                  raise Parse_Error with "Cannot navigate into non-table: " & Path;
+               end if;
+               if not Current.Table_Val.Contains (Key_Str) then
+                  Current.Table_Val.Insert (Key_Str, Make_Table);
+               end if;
+               Parent := Current;
+               Current := Current.Table_Val (Key_Str);
             end if;
-            Parent := null;
-            Current := Doc (Must_Types.To_String (Key));
-         else
-            --  Inside a table
-            if Current.Kind /= Val_Table then
-               raise Parse_Error with "Cannot navigate into non-table: " & Path;
-            end if;
-            if not Current.Table_Val.Contains (Must_Types.To_String (Key)) then
-               Current.Table_Val.Insert (Must_Types.To_String (Key), Make_Table);
-            end if;
-            Parent := Current;
-            Current := Current.Table_Val (Must_Types.To_String (Key));
-         end if;
 
-         Last_Key := Key;
+            Last_Key := Key;
+         end;
       end loop;
 
       Target := Current;
@@ -243,7 +249,7 @@ package body TOML_Parser is
 
    function Parse_String (Content : String) return TOML_Document is
       Doc           : TOML_Document;
-      Current_Table : Unbounded_String := Must_Types.To_Unbounded ("");
+      Current_Table : Unbounded_String := To_Unbounded_String ("");
       Lines         : String_Vector;
       Line_Start    : Positive := Content'First;
       I             : Positive := Content'First;
@@ -252,16 +258,16 @@ package body TOML_Parser is
       while I <= Content'Last loop
          if Content (I) = ASCII.LF then
             if I > Line_Start then
-               Lines.Append (Content (Line_Start .. I - 1));
+               Lines.Append (Must_Types.To_Bounded (Content (Line_Start .. I - 1)));
             else
-               Lines.Append ("");
+               Lines.Append (Must_Types.To_Bounded (""));
             end if;
             Line_Start := I + 1;
          end if;
          I := I + 1;
       end loop;
       if Line_Start <= Content'Last then
-         Lines.Append (Content (Line_Start .. Content'Last));
+         Lines.Append (Must_Types.To_Bounded (Content (Line_Start .. Content'Last)));
       end if;
 
       --  Process each line
@@ -270,7 +276,7 @@ package body TOML_Parser is
       begin
          while Idx <= Lines.Last_Index loop
             declare
-               Line    : constant String := Lines (Idx);
+               Line    : constant String := Must_Types.To_String (Lines (Idx));
                Trimmed : constant String := Trim (Line);
                Target  : TOML_Value_Access;
                Parent  : TOML_Value_Access;
@@ -286,9 +292,9 @@ package body TOML_Parser is
                   Trimmed (Trimmed'First + 1) = '['
                then
                   --  Array of tables [[table.name]]
-                  Current_Table := To_Unbounded
+                  Current_Table := To_Unbounded_String
                     (Trim (Trimmed (Trimmed'First + 2 .. Trimmed'Last - 2)));
-                  Navigate_Or_Create (Doc, Must_Types.To_String (Current_Table),
+                  Navigate_Or_Create (Doc, To_String (Current_Table),
                                       Target, Parent, Last_Key);
                   if Target.Kind /= Val_Array then
                      --  Convert to array
@@ -297,9 +303,9 @@ package body TOML_Parser is
                      begin
                         Arr.Arr_Val.Append (Make_Table);
                         if Parent = null then
-                           Doc.Include (Must_Types.To_String (Last_Key), Arr);
+                           Doc.Include (To_String (Last_Key), Arr);
                         else
-                           Parent.Table_Val.Include (Must_Types.To_String (Last_Key), Arr);
+                           Parent.Table_Val.Include (To_String (Last_Key), Arr);
                         end if;
                      end;
                   else
@@ -307,9 +313,9 @@ package body TOML_Parser is
                   end if;
                else
                   --  Regular table [table.name]
-                  Current_Table := To_Unbounded
+                  Current_Table := To_Unbounded_String
                     (Trim (Trimmed (Trimmed'First + 1 .. Trimmed'Last - 1)));
-                  Navigate_Or_Create (Doc, Must_Types.To_String (Current_Table),
+                  Navigate_Or_Create (Doc, To_String (Current_Table),
                                       Target, Parent, Last_Key);
                end if;
 
@@ -324,39 +330,39 @@ package body TOML_Parser is
                         Key   : constant String :=
                           Trim (Trimmed (Trimmed'First .. Eq_Pos - 1));
                         Value : Unbounded_String :=
-                          Must_Types.To_Unbounded
+                          To_Unbounded_String
                             (Trim (Trimmed (Eq_Pos + 1 .. Trimmed'Last)));
                         Full_Path : constant String :=
                           (if Length (Current_Table) > 0
-                           then Must_Types.To_String (Current_Table) & "." & Key
+                           then To_String (Current_Table) & "." & Key
                            else Key);
                         Val : TOML_Value_Access;
                      begin
                         --  Support multi-line arrays (collect until closing ])
-                        if Ada.Strings.Unbounded.Length (Value) > 0 and then
-                          Must_Types.To_String (Value) (1) = '[' and then
-                          Ada.Strings.Fixed.Index (Must_Types.To_String (Value), "]") = 0
+                        if Length (Value) > 0 and then
+                          To_String (Value) (1) = '[' and then
+                          Ada.Strings.Fixed.Index (To_String (Value), "]") = 0
                         then
                            declare
                               Acc : Unbounded_String := Value;
                            begin
                               while Ada.Strings.Fixed.Index
-                                (Must_Types.To_String (Acc), "]") = 0
+                                (To_String (Acc), "]") = 0
                                 and then Idx < Lines.Last_Index
                               loop
                                  Idx := Idx + 1;
-                                 Acc := Acc & " " & Trim (Lines (Idx));
+                                 Acc := Acc & " " & Trim (Must_Types.To_String (Lines (Idx)));
                               end loop;
                               Value := Acc;
                            end;
                         end if;
 
-                        Val := Parse_Value (Must_Types.To_String (Value));
+                        Val := Parse_Value (To_String (Value));
                         Navigate_Or_Create (Doc, Full_Path, Target, Parent, Last_Key);
                         if Parent = null then
-                           Doc.Include (Must_Types.To_String (Last_Key), Val);
+                           Doc.Include (To_String (Last_Key), Val);
                         else
-                           Parent.Table_Val.Include (Must_Types.To_String (Last_Key), Val);
+                           Parent.Table_Val.Include (To_String (Last_Key), Val);
                         end if;
                      end;
                   end if;
@@ -382,7 +388,7 @@ package body TOML_Parser is
       end loop;
       Close (File);
 
-      return Parse_String (Must_Types.To_String (Content));
+      return Parse_String (To_String (Content));
    exception
       when Name_Error =>
          raise Parse_Error with "File not found: " & Filename;
@@ -396,23 +402,23 @@ package body TOML_Parser is
    function Get (Doc : TOML_Document; Path : String) return TOML_Value_Access is
       Current : TOML_Value_Access := null;
       Segments : constant String_Vector := Split_Path (Path);
-      Key      : Unbounded_String;
+      Key_Str : String := "";
    begin
       for Segment of Segments loop
-         Key := Must_Types.To_Unbounded (Segment);
+         Key_Str := Must_Types.To_String (Segment);
          if Current = null then
-            if not Doc.Contains (Must_Types.To_String (Key)) then
+            if not Doc.Contains (Key_Str) then
                return null;
             end if;
-            Current := Doc (Must_Types.To_String (Key));
+            Current := Doc (Key_Str);
          else
             if Current.Kind /= Val_Table then
                return null;
             end if;
-            if not Current.Table_Val.Contains (Must_Types.To_String (Key)) then
+            if not Current.Table_Val.Contains (Key_Str) then
                return null;
             end if;
-            Current := Current.Table_Val (Must_Types.To_String (Key));
+            Current := Current.Table_Val (Key_Str);
          end if;
       end loop;
 
@@ -434,7 +440,7 @@ package body TOML_Parser is
       if Val.Kind /= Val_String then
          return Default;
       end if;
-      return Must_Types.To_String (Val.Str_Val);
+      return To_String (Val.Str_Val);
    end Get_String;
 
    function Get_Boolean (Doc : TOML_Document; Path : String;
@@ -478,7 +484,7 @@ package body TOML_Parser is
       begin
          for Item of Arr loop
             if Item.all.Kind = Val_String then
-               Result.Append (Must_Types.To_String (Item.all.Str_Val));
+               Result.Append (Must_Types.To_Bounded (To_String (Item.all.Str_Val)));
             end if;
          end loop;
       end;
@@ -500,7 +506,7 @@ package body TOML_Parser is
          Tbl : constant Value_Maps.Map := Val.Table_Val;
       begin
          for C in Tbl.Iterate loop
-            Result.Append (Value_Maps.Key (C));
+            Result.Append (Must_Types.To_Bounded (Value_Maps.Key (C)));
          end loop;
       end;
 

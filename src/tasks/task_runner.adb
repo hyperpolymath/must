@@ -1,20 +1,22 @@
 -- task_runner.adb
 -- Task runner with dependency resolution for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Directories;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNAT.OS_Lib;
-with Must_Types;
 
 package body Task_Runner is
 
-   --  Check if task name is in vector
-   function Contains (Vec : String_Vector; Name : String) return Boolean is
+   --  Make operators visible for bounded strings
+   use type Bounded_String;
+
+   --  Check if task name is in vector (now using bounded strings)
+   function Contains (Vec : String_Vector; Name : Bounded_String) return Boolean is
    begin
       for Item of Vec loop
          if Item = Name then
@@ -26,11 +28,11 @@ package body Task_Runner is
 
    function Task_Exists
      (Config    : Mustfile_Config;
-      Task_Name : String) return Boolean
+      Task_Name : Bounded_String) return Boolean
    is
    begin
       for T of Config.Tasks loop
-         if Must_Types.To_String (T.Name) = Task_Name then
+         if T.Name = Task_Name then
             return True;
          end if;
       end loop;
@@ -39,21 +41,21 @@ package body Task_Runner is
 
    function Get_Task
      (Config    : Mustfile_Config;
-      Task_Name : String) return Task_Def
+      Task_Name : Bounded_String) return Task_Def
    is
    begin
       for T of Config.Tasks loop
-         if Must_Types.To_String (T.Name) = Task_Name then
+         if T.Name = Task_Name then
             return T;
          end if;
       end loop;
-      raise Task_Error with "Task not found: " & Task_Name;
+      raise Task_Error with "Task not found: " & Must_Types.To_String (Task_Name);
    end Get_Task;
 
    --  Internal: depth-first search for topological sort
    procedure DFS
      (Config     : Mustfile_Config;
-      Task_Name  : String;
+      Task_Name  : Bounded_String;
       Visited    : in out String_Vector;
       In_Stack   : in out String_Vector;
       Result     : in out String_Vector)
@@ -63,7 +65,7 @@ package body Task_Runner is
       --  Check for circular dependency
       if Contains (In_Stack, Task_Name) then
          raise Circular_Dependency with
-           "Circular dependency detected involving: " & Task_Name;
+           "Circular dependency detected involving: " & Must_Types.To_String (Task_Name);
       end if;
 
       --  Already processed
@@ -79,7 +81,8 @@ package body Task_Runner is
       for Dep of T.Dependencies loop
          if not Task_Exists (Config, Dep) then
             raise Task_Error with
-              "Task '" & Task_Name & "' depends on unknown task: " & Dep;
+              "Task '" & Must_Types.To_String (Task_Name) &
+              "' depends on unknown task: " & Must_Types.To_String (Dep);
          end if;
          DFS (Config, Dep, Visited, In_Stack, Result);
       end loop;
@@ -103,34 +106,35 @@ package body Task_Runner is
 
    function Resolve_Dependencies
      (Config    : Mustfile_Config;
-      Task_Name : String) return String_Vector
+      Task_Name : Bounded_String) return String_Vector
    is
       Visited  : String_Vector;
       In_Stack : String_Vector;
       Result   : String_Vector;
    begin
       if not Task_Exists (Config, Task_Name) then
-         raise Task_Error with "Task not found: " & Task_Name;
+         raise Task_Error with "Task not found: " & Must_Types.To_String (Task_Name);
       end if;
 
       DFS (Config, Task_Name, Visited, In_Stack, Result);
       return Result;
    end Resolve_Dependencies;
 
-   --  Execute a shell command
+   --  Execute a shell command (using bounded command for safety)
    function Execute_Command
-     (Command : String;
+     (Command : Bounded_Command;
       Verbose : Boolean) return Integer
    is
+      pragma Unreferenced (Verbose);  -- Reserved for future verbose output
       use GNAT.OS_Lib;
-      Args     : Argument_List_Access;
-      Success  : Boolean;
-      Status   : Integer;
+      Args       : Argument_List_Access;
+      Success    : Boolean;
+      Cmd_String : constant String := Must_Types.To_Command_String (Command);
    begin
       --  Use shell to execute command
       Args := new Argument_List (1 .. 2);
       Args (1) := new String'("-c");
-      Args (2) := new String'(Command);
+      Args (2) := new String'(Cmd_String);
 
       Spawn
         (Program_Name => "/bin/sh",
@@ -157,20 +161,21 @@ package body Task_Runner is
       Dry_Run : Boolean;
       Verbose : Boolean)
    is
+      pragma Unreferenced (Config);  -- Reserved for future config-based execution
       Original_Dir : constant String := Ada.Directories.Current_Directory;
    begin
       --  Change to working directory if specified
-      if Length (T.Working_Dir) > 0 then
+      if Bounded_Paths.Length (T.Working_Dir) > 0 then
          if Verbose then
-            Put_Line ("  cd " & Must_Types.To_String (T.Working_Dir));
+            Put_Line ("  cd " & Must_Types.To_Path_String (T.Working_Dir));
          end if;
          if not Dry_Run then
-            Ada.Directories.Set_Directory (Must_Types.To_String (T.Working_Dir));
+            Ada.Directories.Set_Directory (Must_Types.To_Path_String (T.Working_Dir));
          end if;
       end if;
 
       --  Execute commands or script
-      if Length (T.Script) > 0 then
+      if Bounded_Commands.Length (T.Script) > 0 then
          --  Execute script
          if Verbose or Dry_Run then
             Put_Line ("  [script]");
@@ -179,7 +184,7 @@ package body Task_Runner is
             declare
                Status : Integer;
             begin
-               Status := Execute_Command (Must_Types.To_String (T.Script), Verbose);
+               Status := Execute_Command (T.Script, Verbose);
                if Status /= 0 then
                   raise Task_Error with
                     "Script failed with exit code:" & Integer'Image (Status);
@@ -190,7 +195,7 @@ package body Task_Runner is
          --  Execute commands
          for Cmd of T.Commands loop
             if Verbose or Dry_Run then
-               Put_Line ("  " & Cmd);
+               Put_Line ("  " & Must_Types.To_Command_String (Cmd));
             end if;
             if not Dry_Run then
                declare
@@ -199,7 +204,7 @@ package body Task_Runner is
                   Status := Execute_Command (Cmd, Verbose);
                   if Status /= 0 then
                      raise Task_Error with
-                       "Command failed: " & Cmd;
+                       "Command failed: " & Must_Types.To_Command_String (Cmd);
                   end if;
                end;
             end if;
@@ -207,14 +212,14 @@ package body Task_Runner is
       end if;
 
       --  Restore original directory
-      if Length (T.Working_Dir) > 0 and then not Dry_Run then
+      if Bounded_Paths.Length (T.Working_Dir) > 0 and then not Dry_Run then
          Ada.Directories.Set_Directory (Original_Dir);
       end if;
    end Execute_Task;
 
    procedure Run_Task
      (Config    : Mustfile_Config;
-      Task_Name : String;
+      Task_Name : Bounded_String;
       Dry_Run   : Boolean := False;
       Verbose   : Boolean := False)
    is
@@ -229,9 +234,9 @@ package body Task_Runner is
             T : constant Task_Def := Get_Task (Config, Name);
          begin
             if Name = Task_Name then
-               Put_Line ("Running: " & Name);
+               Put_Line ("Running: " & Must_Types.To_String (Name));
             else
-               Put_Line ("Running dependency: " & Name);
+               Put_Line ("Running dependency: " & Must_Types.To_String (Name));
             end if;
 
             Execute_Task (Config, T, Dry_Run, Verbose);
@@ -255,8 +260,8 @@ package body Task_Runner is
 
       --  Find max task name length for alignment
       for T of Config.Tasks loop
-         if Length (T.Name) > Max_Len then
-            Max_Len := Length (T.Name);
+         if Bounded_Strings.Length (T.Name) > Max_Len then
+            Max_Len := Bounded_Strings.Length (T.Name);
          end if;
       end loop;
 
@@ -266,9 +271,9 @@ package body Task_Runner is
       for T of Config.Tasks loop
          declare
             Name : constant String := Must_Types.To_String (T.Name);
-            Desc : constant String := Must_Types.To_String (T.Description);
+            Desc : constant String := Must_Types.To_Description_String (T.Description);
             Padding : constant String (1 .. Max_Len - Name'Length + 2) :=
-              (others => ' ');
+              [others => ' '];
          begin
             if Desc'Length > 0 then
                Put_Line ("  " & Name & Padding & "# " & Desc);

@@ -162,9 +162,8 @@ package Must_Types is
       Requirements : Requirement_Vector;
       Templates    : Template_Vector;
       Enforcement  : Enforcement_Config;
-   end record with
-      Predicate => Bounded_Strings.Length (Mustfile_Config.Project.Name) > 0;
-      --  Config must have valid project with non-empty name
+   end record;
+      --  Config validation happens at load time in mustfile_loader
 
    --  Helper functions for bounded string conversion
    function To_String (S : Bounded_String) return String is

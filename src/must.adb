@@ -67,22 +67,19 @@ begin
             end if;
 
             Config := Mustfile_Loader.Load;
-            declare
-               Task_Name : constant String := Must_Types.To_String (Args.Task_Name);
-            begin
-               if not Task_Runner.Task_Exists (Config, Task_Name) then
-                  Put_Line ("Error: Unknown task '" & Task_Name & "'");
-                  Put_Line ("Run 'must --list' to see available tasks");
-                  Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
-                  return;
-               end if;
 
-               Task_Runner.Run_Task
-                 (Config    => Config,
-                  Task_Name => Task_Name,
-                  Dry_Run   => Args.Dry_Run,
-                  Verbose   => Args.Verbose);
-            end;
+            if not Task_Runner.Task_Exists (Config, Args.Task_Name) then
+               Put_Line ("Error: Unknown task '" & Must_Types.To_String (Args.Task_Name) & "'");
+               Put_Line ("Run 'must --list' to see available tasks");
+               Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
+               return;
+            end if;
+
+            Task_Runner.Run_Task
+              (Config    => Config,
+               Task_Name => Args.Task_Name,
+               Dry_Run   => Args.Dry_Run,
+               Verbose   => Args.Verbose);
 
          when Cmd_Apply =>
             if not Mustfile_Loader.Mustfile_Exists then

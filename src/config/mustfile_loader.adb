@@ -1,13 +1,13 @@
 -- mustfile_loader.adb
 -- Mustfile configuration loader for Must
 -- Copyright (C) 2025 Jonathan D.A. Jewell
--- SPDX-License-Identifier: AGPL-3.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
+-- (PMPL-1.0-or-later preferred; MPL-2.0 required for GNAT ecosystem)
 
 pragma Ada_2022;
 
 with Ada.Directories;
 with Ada.Text_IO; use Ada.Text_IO;
-with Ada.Strings.Unbounded;
 with TOML_Parser; use TOML_Parser;
 
 package body Mustfile_Loader is
@@ -25,26 +25,14 @@ package body Mustfile_Loader is
    function Load (Path : String) return Mustfile_Config is
       Doc    : TOML_Document;
       Config : Mustfile_Config;
-      function Quote_Key (Key : String) return String is
-         Escaped : Ada.Strings.Unbounded.Unbounded_String :=
-           Must_Types.To_Unbounded ("");
-      begin
-         for C of Key loop
-            if C = '"' or else C = '\' then
-               Ada.Strings.Unbounded.Append (Escaped, '\');
-            end if;
-            Ada.Strings.Unbounded.Append (Escaped, C);
-         end loop;
-         return '"' & Must_Types.To_String (Escaped) & '"';
-      end Quote_Key;
    begin
       Doc := Parse_File (Path);
 
       --  Load project section
-      Config.Project.Name := To_Unbounded (Get_String (Doc, "project.name", ""));
-      Config.Project.Version := To_Unbounded (Get_String (Doc, "project.version", ""));
-      Config.Project.License := To_Unbounded (Get_String (Doc, "project.license", ""));
-      Config.Project.Author := To_Unbounded (Get_String (Doc, "project.author", ""));
+      Config.Project.Name := Must_Types.To_Bounded (Get_String (Doc, "project.name", ""));
+      Config.Project.Version := Must_Types.To_Bounded (Get_String (Doc, "project.version", ""));
+      Config.Project.License := Must_Types.To_Bounded (Get_String (Doc, "project.license", ""));
+      Config.Project.Author := Must_Types.To_Bounded (Get_String (Doc, "project.author", ""));
 
       --  Load tasks section
       declare
@@ -52,17 +40,25 @@ package body Mustfile_Loader is
       begin
          for Key of Task_Keys loop
             declare
-               Task_Path : constant String := "tasks." & Key;
-               T         : Task_Def;
+               Task_Path   : constant String := "tasks." & Must_Types.To_String (Key);
+               T           : Task_Def;
+               Cmd_Strings : constant String_Vector :=
+                 Get_String_Array (Doc, Task_Path & ".commands");
             begin
-               T.Name := To_Unbounded (Key);
-               T.Description := To_Unbounded
+               T.Name := Key;  -- Already Bounded_String
+               T.Description := Must_Types.To_Bounded_Description
                  (Get_String (Doc, Task_Path & ".description", ""));
-               T.Commands := Get_String_Array (Doc, Task_Path & ".commands");
+
+               --  Convert String_Vector to Command_Vector
+               for Cmd of Cmd_Strings loop
+                  T.Commands.Append
+                    (Must_Types.To_Bounded_Command (Must_Types.To_String (Cmd)));
+               end loop;
+
                T.Dependencies := Get_String_Array (Doc, Task_Path & ".dependencies");
-               T.Script := To_Unbounded
+               T.Script := Must_Types.To_Bounded_Command
                  (Get_String (Doc, Task_Path & ".script", ""));
-               T.Working_Dir := To_Unbounded
+               T.Working_Dir := Must_Types.To_Bounded_Path
                  (Get_String (Doc, Task_Path & ".working_dir", ""));
                Config.Tasks.Append (T);
             end;
@@ -74,8 +70,13 @@ package body Mustfile_Loader is
          Var_Keys : constant String_Vector := Get_Table_Keys (Doc, "variables");
       begin
          for Key of Var_Keys loop
-            Config.Variables.Insert
-              (Key, Get_String (Doc, "variables." & Key, ""));
+            declare
+               Key_Str : constant String := Must_Types.To_String (Key);
+               Val_Str : constant String := Get_String (Doc, "variables." & Key_Str, "");
+            begin
+               Config.Variables.Insert
+                 (Key, Must_Types.To_Bounded (Val_Str));
+            end;
          end loop;
       end;
 
@@ -85,35 +86,38 @@ package body Mustfile_Loader is
            Get_String_Array (Doc, "requirements.must_have");
          Must_Not_Have : constant String_Vector :=
            Get_String_Array (Doc, "requirements.must_not_have");
-         Content_Keys : constant String_Vector :=
-           Get_Table_Keys (Doc, "requirements.content");
       begin
          for Path of Must_Have loop
-            Config.Requirements.Append
-              (Must_Types.Requirement_Def'
-                 (Kind    => Must_Types.Must_Have,
-                  Path    => To_Unbounded (Path),
-                  Pattern => To_Unbounded ("")));
+            declare
+               Path_Str : constant String := Must_Types.To_String (Path);
+            begin
+               if Path_Str'Length <= Max_Path_Length then
+                  Config.Requirements.Append
+                    (Must_Types.Requirement_Def'
+                       (Kind    => Must_Types.Must_Have,
+                        Path    => Must_Types.To_Bounded_Path (Path_Str),
+                        Pattern => Must_Types.To_Bounded ("")));
+               end if;
+            end;
          end loop;
 
          for Path of Must_Not_Have loop
-            Config.Requirements.Append
-              (Must_Types.Requirement_Def'
-                 (Kind    => Must_Types.Must_Not_Have,
-                  Path    => To_Unbounded (Path),
-                  Pattern => To_Unbounded ("")));
-         end loop;
-
-         for Key of Content_Keys loop
             declare
-               Value_Path : constant String :=
-                 "requirements.content." & Quote_Key (Key);
-               Patterns : constant String_Vector :=
-                 Get_String_Array (Doc, Value_Path);
+               Path_Str : constant String := Must_Types.To_String (Path);
             begin
-               Config.Requirements_Content.Insert (Key, Patterns);
+               if Path_Str'Length <= Max_Path_Length then
+                  Config.Requirements.Append
+                    (Must_Types.Requirement_Def'
+                       (Kind    => Must_Types.Must_Not_Have,
+                        Path    => Must_Types.To_Bounded_Path (Path_Str),
+                        Pattern => Must_Types.To_Bounded ("")));
+               end if;
             end;
          end loop;
+
+         --  TODO: Re-add requirements.content support when Requirements_Content
+         --  field is added back to Mustfile_Config
+         --  For now, content requirements must be added as static Requirement_Def records
       end;
 
       --  Load templates section
@@ -122,15 +126,15 @@ package body Mustfile_Loader is
       begin
          for Key of Template_Keys loop
             declare
-               Tpl_Path : constant String := "templates." & Key;
+               Tpl_Path : constant String := "templates." & Must_Types.To_String (Key);
                T        : Template_Def;
             begin
-               T.Name := To_Unbounded (Key);
-               T.Source := To_Unbounded
+               T.Name := Key;  -- Already Bounded_String
+               T.Source := Must_Types.To_Bounded_Path
                  (Get_String (Doc, Tpl_Path & ".source", ""));
-               T.Destination := To_Unbounded
+               T.Destination := Must_Types.To_Bounded_Path
                  (Get_String (Doc, Tpl_Path & ".destination", ""));
-               T.Description := To_Unbounded
+               T.Description := Must_Types.To_Bounded_Description
                  (Get_String (Doc, Tpl_Path & ".description", ""));
                Config.Templates.Append (T);
             end;
@@ -138,9 +142,9 @@ package body Mustfile_Loader is
       end;
 
       --  Load enforcement section
-      Config.Enforcement.License := To_Unbounded
+      Config.Enforcement.License := Must_Types.To_Bounded
         (Get_String (Doc, "enforcement.license", ""));
-      Config.Enforcement.Copyright_Holder := To_Unbounded
+      Config.Enforcement.Copyright_Holder := Must_Types.To_Bounded
         (Get_String (Doc, "enforcement.copyright_holder", ""));
       Config.Enforcement.Podman_Not_Docker :=
         Get_Boolean (Doc, "enforcement.podman_not_docker", True);
